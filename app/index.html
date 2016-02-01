@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.css' />
+    <link rel='stylesheet' href='bower_components/textAngular/dist/textAngular.css' />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  </head>
+  <body ng-app="freestateApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="grid-frame" ng-controller="MainCtrl as main">
+
+        <div class="vertical grid-block">
+        
+          <div class="grid-block shrink bar bar-top">
+            <div class="grid-block shrink">
+              <div class="grid-content">
+                <div class="counter" ng-show="main.limit">Expires in 5s</div>
+                <div class="begin" ng-hide="main.limit">
+                  <a href="http://github.com/ethanmay/freestate" target="_blank"><i class="fa fa-github-square"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="grid-block">
+              <div class="grid-content text-center logo">
+                <a ui-sref="root">
+                  FreeState
+                </a>
+              </div>
+            </div>
+            <div class="grid-block shrink">
+              <div class="grid-content text-right">
+                <div class="counter" ng-show="main.limit">{{main.limit}}</div>
+                <div class="begin" ng-hide="main.limit">
+                  <a ng-click="main.startCreateProcess()">
+                    <i class="fa fa-plus-square"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="grid-block main">
+            <div class="grid-block hide-for-small-only">
+              <div class="grid-content"></div>
+            </div>
+
+            <div class="grid-block editor small-12 medium-10 large-9 xlarge-8 xxlarge-7 xxxlarge-6">
+              <div class="grid-content">
+                <div class="page" ui-view></div>
+              </div>
+            </div>
+
+            <div class="grid-block hide-for-small-only">
+              <div class="grid-content"></div>
+            </div>
+          </div>
+
+          <div class="grid-block shrink bar bar-bottom">
+            <div class="grid-block">
+              <div class="grid-content">
+                Built with <i class="fa fa-heart-o"></i> by <a href="http://github.com/ethanmay">Ethan May</a>
+              </div>
+            </div>
+            <div class="grid-block">
+              <div class="grid-content text-right">
+                <a ui-sref="about">About</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+    </div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <!--
+    <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+    -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="bower_components/rangy/rangy-core.js"></script>
+    <script src="bower_components/rangy/rangy-classapplier.js"></script>
+    <script src="bower_components/rangy/rangy-highlighter.js"></script>
+    <script src="bower_components/rangy/rangy-selectionsaverestore.js"></script>
+    <script src="bower_components/rangy/rangy-serializer.js"></script>
+    <script src="bower_components/rangy/rangy-textrange.js"></script>
+    <script src="bower_components/textAngular/dist/textAngular.js"></script>
+    <script src="bower_components/textAngular/dist/textAngular-sanitize.js"></script>
+    <script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/viewport-units-buggyfill/viewport-units-buggyfill.js"></script>
+    <script src="bower_components/viewport-units-buggyfill/viewport-units-buggyfill.hacks.js"></script>
+    <script src="bower_components/tether/tether.js"></script>
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/hammerjs/hammer.js"></script>
+    <script src="bower_components/foundation-apps/dist/js/foundation-apps.js"></script>
+    <script src="bower_components/foundation-apps/dist/js/foundation-apps-templates.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/setup.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

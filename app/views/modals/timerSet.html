@@ -1,0 +1,88 @@
+<div ng-controller="SetupCtrl as setup">
+	<div class="grid-block vertical" ng-show="step === 1">
+		<div class="grid-block">
+			<div class="grid-content text-center">
+				<h1><i class="fa fa-hourglass"></i></h1>
+				<h3>Limit by time or word count?</h3>
+			</div>
+		</div>
+		<div class="grid-block">
+			<div class="grid-block">
+				<div class="grid-content text-center">
+					<ul class="button-group expand">
+						<li>
+							<a class="text-center" ng-click="step = 'time'">
+								<i class="fa fa-clock-o"></i><br>
+								Time
+							</a>
+						</li>
+						<li>
+							<a class="text-center" ng-click="step = 'words'">
+								<i class="fa fa-pencil-square-o"></i><br>
+								Word Count
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form ng-show="step === 'time'" ng-submit="setup.limitByTime()">
+		<div class="grid-block vertical">
+			<div class="grid-block">
+				<div class="grid-content text-center">
+					<h1><i class="fa fa-clock-o"></i></h1>
+					<h3>Limit by Time</h3>
+				</div>
+			</div>
+			<div class="grid-block">
+				<div class="grid-block">
+					<div class="grid-content text-center">
+						<label>Hours:
+							<input type="number" value="0"  ng-model="setup.timeLimit.hrs" ng-change="setup.validifyTime()">
+						</label>
+					</div>
+				</div>
+				<div class="grid-block">
+					<div class="grid-content text-center">
+						<label>Minutes:
+							<input type="number" value="0" ng-model="setup.timeLimit.min" ng-change="setup.validifyTime()">
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="grid-block">
+				<div class="grid-content">
+					<button class="button expand">{{setup.buttonText}}</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<form ng-show="step === 'words'" ng-submit="setup.limitByWords()">
+		<div class="grid-block vertical">
+			<div class="grid-block">
+				<div class="grid-content text-center">
+					<h1><i class="fa fa-pencil-square-o"></i></h1>
+					<h3>Limit by Words</h3>
+				</div>
+			</div>
+			<div class="grid-block">
+				<div class="grid-content text-center">
+					<label>Number of words:
+						<input type="number" value="0" ng-model="setup.wordLimit" ng-change="setup.validifyWords()">
+					</label>
+				</div>
+			</div>
+			<div class="grid-block">
+				<div class="grid-content">
+					<button class="button expand">{{setup.buttonText}}</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<a class="go-back" ng-click="step = 1" ng-show="step !== 1"><i class="fa fa-arrow-circle-o-left"></i></a>
+	<a zf-close="" class="close-modal"><i class="fa fa-close"></i></a>
+</div>
