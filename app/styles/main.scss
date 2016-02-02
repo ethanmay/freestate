@@ -267,6 +267,20 @@ body {
 
   .bar-top {
     font-size: 14px;
+
+    .begin i {
+      position: relative;
+      font-size: 16px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: -9px;
+        left: -9px;
+        width: 32px;
+        height: 32px;
+      }
+    }
   }
 
   .editor > .grid-content {
@@ -280,6 +294,10 @@ body {
   .page .page-container {
     margin-top: 0;
     box-shadow: none;
+
+    [text-angular] [text-angular-toolbar] .btn-group button {
+      font-size: 10px;
+    }
   }
 
 }

@@ -18,6 +18,16 @@
 
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-43664027-3');
+    </script>
   </head>
   <body ng-app="freestateApp">
     <!--[if lte IE 8]>
@@ -84,7 +94,7 @@
             </div>
           </div>
 
-          <div class="grid-block shrink bar bar-bottom">
+          <div class="grid-block shrink bar bar-bottom hide-for-small-only">
             <div class="grid-block">
               <div class="grid-content">
                 Built with <i class="fa fa-heart-o"></i> by <a href="http://github.com/ethanmay" target="_blank">Ethan May</a>
@@ -100,16 +110,6 @@
         </div>
 
     </div>
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <script>
-       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-43664027-3', 'auto');
-    </script>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
