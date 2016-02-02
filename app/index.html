@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>FreeFlow</title>
-    <meta name="description" content="Find your flow state. Don't stop writing!">
+    <title>FreeState</title>
+    <meta name="description" content="Find your flow state and set your writing free.">
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
@@ -32,14 +32,14 @@
               <div class="grid-content">
                 <div class="counter" ng-show="main.limit && !main.editMode">Expires in {{main.timer}}s</div>
                 <div class="begin" ng-hide="main.limit">
-                  <a href="http://github.com/ethanmay/freestate" target="_blank"><i class="fa fa-github-square"></i></a>
+                  <a href="http://github.com/ethanmay/freestate" analytics-on="click" analytics-event="Go to repo" target="_blank"><i class="fa fa-github-square"></i></a>
                 </div>
               </div>
             </div>
             <div class="grid-block small-8">
               <div class="grid-content text-center logo">
                 <a ui-sref="root">
-                  FreeFlow
+                  FreeState
                 </a>
               </div>
             </div>
@@ -59,7 +59,7 @@
                   </div>
                 </div>
                 <div class="begin" ng-hide="main.limit">
-                  <a ng-click="main.startCreateProcess()">
+                  <a ng-click="main.startCreateProcess()" analytics-on="click" analytics-event="New Document">
                     <i class="fa fa-plus-square"></i>
                   </a>
                 </div>
@@ -101,17 +101,14 @@
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <!--
     <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
        (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
        r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
        }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
+       ga('create', 'UA-43664027-3', 'none');
     </script>
-    -->
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -137,6 +134,9 @@
     <script src="bower_components/hammerjs/hammer.js"></script>
     <script src="bower_components/foundation-apps/dist/js/foundation-apps.js"></script>
     <script src="bower_components/foundation-apps/dist/js/foundation-apps-templates.js"></script>
+    <script src="bower_components/SHA-1/sha1.js"></script>
+    <script src="bower_components/angulartics/src/angulartics.js"></script>
+    <script src="bower_components/angulartics-google-analytics/lib/angulartics-google-analytics.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

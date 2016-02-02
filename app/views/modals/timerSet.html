@@ -11,13 +11,13 @@
 				<div class="grid-content text-center">
 					<ul class="button-group expand">
 						<li>
-							<a class="text-center" ng-click="step = 'time'">
+							<a class="text-center" ng-click="step = 'time'" analytics-on="click" analytics-event="Limit by Time">
 								<i class="fa fa-clock-o"></i><br>
 								Time
 							</a>
 						</li>
 						<li>
-							<a class="text-center" ng-click="step = 'words'">
+							<a class="text-center" ng-click="step = 'words'" analytics-on="click" analytics-event="Limit by Word Count">
 								<i class="fa fa-pencil-square-o"></i><br>
 								Word Count
 							</a>
@@ -54,7 +54,7 @@
 			</div>
 			<div class="grid-block">
 				<div class="grid-content">
-					<button class="button expand">{{setup.buttonText}}</button>
+					<button class="button expand" analytics-on="click" analytics-event="Set Time" analytics-label="{{setup.timeLimit}}">{{setup.buttonText}}</button>
 				</div>
 			</div>
 		</div>
@@ -77,7 +77,7 @@
 			</div>
 			<div class="grid-block">
 				<div class="grid-content">
-					<button class="button expand">{{setup.buttonText}}</button>
+					<button class="button expand" analytics-on="click" analytics-event="Set Time" analytics-label="{{setup.wordLimit}}">{{setup.buttonText}}</button>
 				</div>
 			</div>
 		</div>

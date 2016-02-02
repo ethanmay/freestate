@@ -14,7 +14,8 @@ angular.module('freestateApp')
   	'$interval',
   	'textAngularManager',
   	'$scope',
-  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope ){
+  	'$analytics',
+  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics ){
 	    var self = this;
 
 	    self.init = function() {
@@ -69,6 +70,7 @@ angular.module('freestateApp')
 	    };
 
 	    self.initWritingContainer = function() {
+	    	$analytics.eventTrack('Started Writing Session');
 		    angular.element('.page-container').css( 'min-height', angular.element('.page-container').outerHeight() + 8 );
 	    	self.enableWriting = true;
 	    	self.text = 'Start typing to begin...';
@@ -89,6 +91,7 @@ angular.module('freestateApp')
 	    self.stoppedWriting = function() {
 	    	if( self.enableWriting === true && self.text !== '' && !self.editMode ) {
     			self.detonate = $timeout( function() {
+					$analytics.eventTrack('TIME UP Cleared Document');
 			    	self.text = '<p></p>';
     				self.timer = 5;
     				angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', 1);
@@ -169,6 +172,7 @@ angular.module('freestateApp')
 	    };
 
 	    self.done = function() {
+			$analytics.eventTrack('Finished Document', { label: self.text });
 			self.destroyTimers();
 	    	self.finished = true;
 		    self.showToolbar = true;
