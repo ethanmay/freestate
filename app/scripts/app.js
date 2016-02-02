@@ -15,7 +15,9 @@ angular
 		'ngTouch',
 		'ui.router',
 		'textAngular',
-		'foundation'
+		'foundation',
+		'angulartics', 
+		'angulartics.google.analytics'
 	])
 	.config( [
 		'$urlRouterProvider',
