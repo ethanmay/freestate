@@ -75,6 +75,7 @@ angular.module('freestateApp')
 	    	self.enableWriting = true;
 	    	self.text = 'Start typing to begin...';
 	    	self.editor = textAngularManager.retrieveEditor('text-editor');
+	    	self.editor.editorFunctions.focus();
 
 	    	if( self.limit.type === 'time' ) {
 				var timer = ( ( self.limit.value.min * 60 ) * 1000 ) + ( ( self.limit.value.hrs * 3600 ) * 1000 );
