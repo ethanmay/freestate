@@ -29,7 +29,7 @@
         <div class="vertical grid-block">
         
           <div class="grid-block shrink bar bar-top">
-            <div class="grid-block small-2">
+            <div class="grid-block small-4 medium-2">
               <div class="grid-content">
                 <div class="counter" ng-show="main.limit && !main.editMode">Expires in {{main.timer}}s</div>
                 <div class="begin" ng-hide="main.limit">
@@ -37,14 +37,14 @@
                 </div>
               </div>
             </div>
-            <div class="grid-block small-8">
+            <div class="grid-block small-4 medium-8">
               <div class="grid-content text-center logo">
                 <a ui-sref="root">
                   FreeState
                 </a>
               </div>
             </div>
-            <div class="grid-block small-2">
+            <div class="grid-block small-4 medium-2">
               <div class="grid-content text-right">
                 <div class="counter" ng-show="main.limit">
                   <div ng-if="main.limit.type === 'words' && !main.editMode">
@@ -144,6 +144,7 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/setup.js"></script>
+        <script src="scripts/directives/stopEvent.js"></script>
         <!-- endbuild -->
 </body>
 </html>

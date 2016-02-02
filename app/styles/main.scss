@@ -265,6 +265,10 @@ body {
 
 @include breakpoint( small only ) {
 
+  .bar-top {
+    font-size: 14px;
+  }
+
   .editor > .grid-content {
     padding: 0;
   }
