@@ -11,13 +11,14 @@ angular.module('freestateApp')
   .controller('SetupCtrl', [ '$scope', function( $scope ){
     
     this.init = function() {
+        this.expiry = 0;
 	    this.timeLimit = {
 	    	min: 0,
 	    	hrs: 0
 	    };
 	    this.wordLimit = 0;
 	    this.buttonText = 'BEGIN';
-	    this.limit = {};
+        this.limit = {};
     };
 
     this.validifyTime = function() {
@@ -26,7 +27,7 @@ angular.module('freestateApp')
     	if( ( lim.min < 0 || lim.hrs < 0 ) || ( lim.hrs === 0 && lim.min === 0 ) ) {
     		this.buttonText = 'Time only goes forward...';
     	} else {
-		    this.buttonText = 'BEGIN';
+		    this.buttonText = 'Next';
     	}
     };
 
@@ -39,7 +40,8 @@ angular.module('freestateApp')
     	} else {
     		this.limit.type = 'time';
     		this.limit.value = lim;
-    		$scope.closeModal( this.limit );
+            this.buttonText = 'BEGIN';
+            $scope.step = 'expire';
     	}
     };
 
@@ -47,7 +49,7 @@ angular.module('freestateApp')
     	if( this.wordLimit <= 0 ) {
     		this.buttonText = 'That doesn\'t make sense...';
     	} else {
-		    this.buttonText = 'BEGIN';
+		    this.buttonText = 'Next';
     	}
     };
 
@@ -58,8 +60,31 @@ angular.module('freestateApp')
     	} else {
     		this.limit.type = 'words';
     		this.limit.value = this.wordLimit;
-    		$scope.closeModal( this.limit );
+            this.buttonText = 'BEGIN';
+    		$scope.step = 'expire';
     	}
+    };
+
+    this.validifyExpiry = function() {
+        var lim = this.expiry;
+        
+        if( lim < 0 || lim === 0 ) {
+            this.buttonText = 'Time only goes forward...';
+        } else {
+            this.buttonText = 'BEGIN';
+        }
+    };
+
+    this.setExpirationTime = function() {
+        var lim = this.expiry;
+
+        if( lim < 0 || lim === 0 ) {
+            this.buttonText = 'Time only goes forward...';
+            return false;
+        } else {
+            this.limit.expiry = lim;
+            $scope.closeModal( this.limit );
+        }
     };
 
     this.init();

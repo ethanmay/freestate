@@ -83,6 +83,31 @@
 		</div>
 	</form>
 
+	<form ng-show="step === 'expire'" ng-submit="setup.setExpirationTime()">
+		<div class="grid-block vertical">
+			<div class="grid-block">
+				<div class="grid-content text-center">
+					<h1><i class="fa fa-hourglass"></i></h1>
+					<h3>Set countdown expiration</h3>
+				</div>
+			</div>
+			<div class="grid-block">
+				<div class="grid-block">
+					<div class="grid-content text-center">
+						<label>Seconds:
+							<input type="number" value="0" ng-model="setup.expiry" ng-change="setup.validifyExpiry()">
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="grid-block">
+				<div class="grid-content">
+					<button class="button expand" analytics-on="click" analytics-event="Set Countdown" analytics-label="{{setup.expiry}}">{{setup.buttonText}}</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
 	<a class="go-back" ng-click="step = 1" ng-show="step !== 1"><i class="fa fa-arrow-circle-o-left"></i></a>
 	<a zf-close="" class="close-modal"><i class="fa fa-close"></i></a>
 </div>
