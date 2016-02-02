@@ -24,7 +24,7 @@ angular.module('freestateApp')
 	    	self.enableWriting = false;
 	    	self.counterStarted = false;
 	    	self.text = 'Click the plus button to create a new document.';
-			self.timer = 5;
+			self.timer = 0;
 			self.editMode = false;
 
 		    var windowHeight = angular.element(window).outerHeight();
@@ -75,7 +75,7 @@ angular.module('freestateApp')
 	    	self.enableWriting = true;
 	    	self.text = 'Start typing to begin...';
 	    	self.editor = textAngularManager.retrieveEditor('text-editor');
-	    	self.editor.editorFunctions.focus();
+	    	self.timer = self.limit.expiry;
 
 	    	if( self.limit.type === 'time' ) {
 				var timer = ( ( self.limit.value.min * 60 ) * 1000 ) + ( ( self.limit.value.hrs * 3600 ) * 1000 );
@@ -90,21 +90,21 @@ angular.module('freestateApp')
 	    };
 
 	    self.stoppedWriting = function() {
-	    	if( self.enableWriting === true && self.text !== '' && !self.editMode ) {
+	    	if( self.enableWriting === true && self.text !== '' && self.text !== '<p></p>' && !self.editMode ) {
     			self.detonate = $timeout( function() {
 					$analytics.eventTrack('TIME UP Cleared Document');
-			    	self.text = '<p></p>';
-    				self.timer = 5;
+					textAngularManager.refreshEditor('text-editor');
+					self.editor.scope.displayElements.text.html('');
+    				self.timer = self.limit.expiry;
     				angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', 1);
-    				textAngularManager.refreshEditor('text-editor');
 			    	$interval.cancel( self.eraseTimer );
 			    	$timeout.cancel( self.detonate );
-    			}, 5000);
+    			}, self.limit.expiry * 1000);
 
     			self.eraseTimer = $interval( function() {
     				self.timer = self.timer - 1;
     				var opacity = angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity');
-    				opacity = opacity - 0.2;
+    				opacity = opacity - ( 1 / self.limit.expiry );
     				angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', opacity);
     			}, 1000);
     		}
@@ -112,7 +112,7 @@ angular.module('freestateApp')
 
 	    self.destroyTimers = function() {
 	    	if( self.detonate || self.eraseTimer ) {
-	    		self.timer = 5;
+	    		self.timer = self.limit.expiry;
 		    	angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', 1);
 	    	}
 	    	if( self.detonate ) {
