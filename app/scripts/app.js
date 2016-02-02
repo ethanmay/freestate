@@ -12,7 +12,6 @@ angular
 	.module('freestateApp', [
 		'ngAnimate',
 		'ngCookies',
-		'ngTouch',
 		'ui.router',
 		'textAngular',
 		'foundation',
