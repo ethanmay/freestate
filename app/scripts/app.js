@@ -14,7 +14,6 @@ angular
 		'ngCookies',
 		'ngTouch',
 		'ui.router',
-		'angular-loading-bar',
 		'textAngular',
 		'foundation'
 	])
@@ -22,10 +21,7 @@ angular
 		'$urlRouterProvider',
 		'$locationProvider',
 		'$stateProvider',
-		'cfpLoadingBarProvider',
-		function( $urlRouterProvider, $locationProvider, $stateProvider, cfpLoadingBarProvider ) {
-			cfpLoadingBarProvider.includeSpinner = false;
-
+		function( $urlRouterProvider, $locationProvider, $stateProvider ) {
 			// Routing
 			$urlRouterProvider.otherwise('/');
 
@@ -45,5 +41,5 @@ angular
 			});
 		}])
 		.run( [ function(){
-			FastClick.attach(document.body);
+			FastClick.attach( document.body );
 		}]);

@@ -1,7 +1,10 @@
 // bower:scss
 @import "font-awesome/scss/font-awesome.scss";
-@import "foundation-apps/scss/foundation.scss";
 // endbower
+
+// Import custom foundation
+@import "foundation/settings.scss";
+@import "foundation/foundation.scss";
 
 .browsehappy {
   margin: 0.2em 0;
@@ -42,6 +45,9 @@ body {
   background: $tan;
   color: $brown;
   font-size: 24px;
+  box-shadow: 0 0 20px rgba( $black, 0.16 );
+  position: relative;
+  z-index: 1;
 
   a {
     color: $brown;
@@ -69,6 +75,7 @@ body {
 .bar-bottom {
   font-size: 12px;
   padding: 10px 0;
+  font-weight: bold;
 }
 
 .editor > .grid-content {
@@ -82,7 +89,7 @@ body {
     $fade: true, // If true, the element fades simultaneously
     $duration: 0.2s,
     $timing: easeIn,
-    $delay: 0.1s
+    $delay: 0.3s
   );
 
   @include fade(
@@ -94,33 +101,181 @@ body {
   );
 
   .page-container {
+    position: relative;
     margin-top: 30px;
-    padding: 15px;
+    padding: 30px;
     background: $white;
     box-shadow: 0 0 10px rgba( $black, 0.17 );
+
+    .editor-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    [text-angular] {
+      [text-angular-toolbar] {
+        display: none;
+
+        .btn-group {
+        
+          &:first-child {
+            border-bottom: 1px solid $brown;
+            button {
+              width: 11.11%;
+            }
+          }
+          &:nth-child(2) {
+            display: inline-block;
+            border-bottom: 1px solid $brown;
+            width: 58.8%;
+
+            button {
+              width: 11.11%;
+            }
+          }
+          &:nth-child(3) {
+            display: inline-block;
+            border-bottom: 1px solid $brown;
+            width: 41.2%;
+
+            button {
+              width: 16.66%;
+            }
+          }
+
+          button {
+            background: $tan;
+            color: $brown;
+            border-radius: 0;
+            border: none;
+            padding: 15px 0;
+
+            &[name="strikeThrough"], &[name="ol"], &[name="clear"] {
+              border-right: 1px solid $brown;
+            }
+
+            &[name="html"], &[name="insertImage"], &[name="insertLink"], &[name="insertVideo"] {
+              display: none;
+            }
+
+            &:hover {
+              background: $brown;
+              color: $tan;
+            }
+          }
+
+          #toolbarWC, #toolbarCC {
+            display: inline-block !important;
+            width: 50%;
+            text-align: center;
+            padding: 10px 0;
+            color: $brown;
+          }
+        }
+      }
+
+      .ta-scroll-window.form-control {
+        overflow: hidden;
+        outline: none;
+        box-shadow: none;
+        border: none;
+        border-color: $white;
+      }
+
+      .ta-scroll-window > .ta-bind {
+        padding: 0;
+        outline: none;
+        border: none;
+        box-shadow: none;
+        opacity: 1;
+        transition: opacity 200ms ease-in-out;
+        font-size: 20px;
+
+        p {
+          font-size: 20px;
+          margin-bottom: 10px;
+        }
+      }
+
+      &.showToolbar {
+        [text-angular-toolbar] {
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+        }
+
+        .ta-scroll-window {
+          margin-top: 100px;
+        }
+      }
+    }
+  }
+}
+
+.modal {
+  cursor: initial;
+
+  h1 {
+    color: $purple;
+  }
+
+  .button, .button-group li a {
+    background: $tan;
+    outline: none;
+    color: $brown;
+    border-color: $brown;
+    font-weight: bold;
+
+    i {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    &:hover {
+      background: $brown;
+      color: $tan;
+    }
+  }
+}
+
+.go-back, .close-modal {
+  position: absolute;
+  top: 0;
+  padding: 15px;
+  z-index: 10;
+  color: $black;
+
+  &:hover {
+    color: $purple;
   }
 }
 
 .go-back {
-  position: absolute;
-  top: 0;
   left: 0;
-  padding: 15px;
-  z-index: 10;
 }
 
 .close-modal {
-  position: absolute;
-  top: 0;
   right: 0;
-  padding: 15px;
-  z-index: 10;
 }
 
 @include breakpoint( small only ) {
 
   .editor > .grid-content {
     padding: 0;
+  }
+
+  .main {
+    background: $white;
+  }
+
+  .page .page-container {
+    margin-top: 0;
+    box-shadow: none;
   }
 
 }
