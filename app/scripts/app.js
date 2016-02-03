@@ -43,8 +43,7 @@ angular
 		}])
 		.run( [ 'ModalFactory', '$timeout', function( ModalFactory, $timeout ){
 			FastClick.attach( document.body );
-
-			if( window.mobilecheck === true ) {
+			if( window.mobilecheck() ) {
 				var modal = new ModalFactory({
 					// Add CSS classes to the modal
 					// Can be a single string or an array of classes
