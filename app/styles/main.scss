@@ -41,7 +41,7 @@ body {
 }
 
 .bar {
-  padding: 20px 0;
+  padding: 10px 0;
   background: $tan;
   color: $brown;
   font-size: 24px;
@@ -64,6 +64,10 @@ body {
     font-weight: bold;
     color: $brown;
 
+    img {
+      max-height: 40px;
+    }
+
     a {
       text-decoration: none;
     }
@@ -72,14 +76,18 @@ body {
   .begin {
     i {
       font-size: 32px;
+      line-height: 40px;
     }
   }
 }
 
 .bar-bottom {
   font-size: 12px;
-  padding: 10px 0;
   font-weight: bold;
+
+  i {
+    color: $purple;
+  }
 }
 
 .editor > .grid-content {
