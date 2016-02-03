@@ -23,9 +23,10 @@ angular.module('freestateApp')
 		    self.showToolbar = false;
 	    	self.enableWriting = false;
 	    	self.counterStarted = false;
-	    	self.text = 'Click the plus button to create a new document.';
+	    	self.text = '<h3 class="text-center"><b>Welcome to FreeState</b></h3><h5 class="text-center">Improve your writing flow.</h5><hr/><p>Set a writing goal for yourself, then set an expiration timer. If you stop writing, the expiration timer starts. If you don\'t start writing again, your work will be erased and you will start over.</p><hr><p>When you\'re ready, click the &nbsp;<i class="fa fa-plus-square"></i>&nbsp; button to begin.</p><p><small><i>Special thanks to <a href="http://www.hailoverman.com/flowstate" target="_blank">FlowState</a> for the app idea, but $15 is way too expensive.</i></small></p>';
 			self.timer = 0;
 			self.editMode = false;
+			self.wordCount = 0;
 
 		    var windowHeight = angular.element(window).outerHeight();
 		    var headHeight = angular.element('.bar-top').outerHeight();
@@ -34,7 +35,7 @@ angular.module('freestateApp')
 
 		    $timeout( function() {
 			    angular.element('.page-container').css( 'min-height', total );
-			    angular.element('.page-container [text-angular] .ta-scroll-window > .ta-bind').css( 'min-height', total - 70 ); // subtract padding of container
+			    angular.element('.page-container [text-angular] .ta-scroll-window > .ta-bind').css( 'min-height', total - 73 ); // subtract padding of container
 		    }, 250);
 	    };
 
@@ -77,6 +78,14 @@ angular.module('freestateApp')
 	    	self.editor = textAngularManager.retrieveEditor('text-editor');
 	    	self.timer = self.limit.expiry;
 
+	    	self.editor.scope.displayElements.text.click( function() {
+	    		self.editor.scope.displayElements.text.html('');
+	    		if( self.limit.type === 'words' ) {
+		    		self.wordCount = self.limit.value;
+	    		}
+	    		self.editor.scope.displayElements.text.off('click');
+	    	});
+
 	    	if( self.limit.type === 'time' ) {
 				var timer = ( ( self.limit.value.min * 60 ) * 1000 ) + ( ( self.limit.value.hrs * 3600 ) * 1000 );
 				var output = self.msToTime( timer );
@@ -84,7 +93,7 @@ angular.module('freestateApp')
 				self.minuteCounter = output.min;
 				self.secondCounter = output.sec;
 	    	} else if( self.limit.type === 'words' ) {
-	    		self.wordCount = 0;
+	    		self.wordCount = self.limit.value;
     			self.beginWritingByWordCount();
 	    	}
 	    };
@@ -161,11 +170,16 @@ angular.module('freestateApp')
 
 	    self.beginWritingByWordCount = function() {
 	    	self.counterStarted = true;
+	    	self.wordCount = self.limit.value;
 
 	    	self.countWatcher = $scope.$watch(function () {
 				return self.editor.scope.wordcount;
 			}, function( count ){
-				if( count >= self.limit.value ) {
+				if( count ) {
+					self.wordCount = self.limit.value - count;
+				}
+
+				if( self.wordCount <= 0 ) {
 					self.countWatcher();
 					self.done();
 				}
@@ -180,6 +194,7 @@ angular.module('freestateApp')
 			self.counterStarted = false;
 			self.editMode = true;
 			self.limit = false;
+			self.wordCount = 0;
 
 	    	var modal = new ModalFactory({
 				// Add CSS classes to the modal

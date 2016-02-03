@@ -52,6 +52,10 @@ body {
   a {
     color: $brown;
     text-decoration: underline;
+
+    &:hover {
+      color: $purple;
+    }
   }
 }
 
@@ -193,6 +197,7 @@ body {
         opacity: 1;
         transition: opacity 200ms ease-in-out;
         font-size: 20px;
+        line-height: 1.6;
 
         p {
           font-size: 20px;
