@@ -6,6 +6,12 @@
     <meta name="description" content="Find your flow state and set your writing free.">
     <meta name="google-site-verification" content="KAjgILxmFeb1zeqRnOyIey2hFHp9pV1xpH09NVdPpu0" />
     <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="images/icon-120.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icon-180.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="images/icon-76.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="images/icon-152.png" />
+    <link rel="apple-touch-icon" sizes="58x58" href="images/icon-58.png" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -50,7 +56,7 @@
             <div class="grid-block small-4 medium-8">
               <div class="grid-content text-center logo">
                 <a ui-sref="root">
-                  FreeState
+                  <img src="images/logo.png" alt="FreeState" />
                 </a>
               </div>
             </div>
@@ -58,9 +64,9 @@
               <div class="grid-content text-right">
                 <div class="counter" ng-show="main.limit">
                   <div ng-if="main.limit.type === 'words' && !main.editMode">
-                    <span ng-if="main.editor">{{ main.editor.scope.wordcount ? main.editor.scope.wordcount : 0 }} 
-                    <span ng-if="!main.editor.scope.wordcount || main.editor.scope.wordcount === 0 || main.editor.scope.wordcount > 1">words</span>
-                    <span ng-if="main.editor.scope.wordcount === 1">word</span>
+                    <span ng-if="main.editor">{{ main.wordCount ? main.wordCount : 0 }} 
+                    <span ng-if="!main.wordCount || main.wordCount === 0 || main.wordCount > 1">words</span>
+                    <span ng-if="main.wordCount === 1">word</span> left
                   </div>
                   <div ng-if="main.limit.type === 'time' && !main.editMode">
                     <span ng-if="main.hourCounter">{{main.hourCounter}} hrs. </span>
@@ -96,13 +102,8 @@
 
           <div class="grid-block shrink bar bar-bottom hide-for-small-only">
             <div class="grid-block">
-              <div class="grid-content">
-                Built with <i class="fa fa-heart-o"></i> by <a href="http://github.com/ethanmay" target="_blank">Ethan May</a>
-              </div>
-            </div>
-            <div class="grid-block">
-              <div class="grid-content text-right">
-                <a ui-sref="about">About</a>
+              <div class="grid-content text-center">
+                Built with <i class="fa fa-heart"></i> by <a href="http://github.com/ethanmay" target="_blank">Ethan May</a>
               </div>
             </div>
           </div>

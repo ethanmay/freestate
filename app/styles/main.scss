@@ -41,7 +41,7 @@ body {
 }
 
 .bar {
-  padding: 20px 0;
+  padding: 10px 0;
   background: $tan;
   color: $brown;
   font-size: 24px;
@@ -52,6 +52,10 @@ body {
   a {
     color: $brown;
     text-decoration: underline;
+
+    &:hover {
+      color: $purple;
+    }
   }
 }
 
@@ -59,6 +63,10 @@ body {
   .logo {
     font-weight: bold;
     color: $brown;
+
+    img {
+      max-height: 40px;
+    }
 
     a {
       text-decoration: none;
@@ -68,14 +76,18 @@ body {
   .begin {
     i {
       font-size: 32px;
+      line-height: 40px;
     }
   }
 }
 
 .bar-bottom {
   font-size: 12px;
-  padding: 10px 0;
   font-weight: bold;
+
+  i {
+    color: $purple;
+  }
 }
 
 .editor > .grid-content {
@@ -193,6 +205,7 @@ body {
         opacity: 1;
         transition: opacity 200ms ease-in-out;
         font-size: 20px;
+        line-height: 1.6;
 
         p {
           font-size: 20px;
