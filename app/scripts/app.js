@@ -41,6 +41,30 @@ angular
 				requireBase: false
 			});
 		}])
-		.run( [ function(){
+		.run( [ 'ModalFactory', '$timeout', function( ModalFactory, $timeout ){
 			FastClick.attach( document.body );
+
+			if( window.mobilecheck === true ) {
+				var modal = new ModalFactory({
+					// Add CSS classes to the modal
+					// Can be a single string or an array of classes
+					class: 'tiny dialog',
+					// Set if the modal has a background overlay
+					overlay: true,
+					// Set if the modal can be closed by clicking on the overlay
+					overlayClose: true,
+					// Define a template to use for the modal
+					templateUrl: 'views/modals/homescreen.html',
+					// Allows you to pass in properties to the scope of the modal
+					contentScope: {
+						closeModal: function() {
+							modal.deactivate();
+							$timeout(function() {
+								modal.destroy();
+							}, 1000);
+						}
+					}
+				});
+				modal.activate();
+			}
 		}]);
