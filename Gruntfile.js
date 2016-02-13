@@ -22,7 +22,8 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'dist',
+    phonegap: 'www'
   };
 
   // Define the configuration for all the tasks
@@ -167,6 +168,7 @@ module.exports = function (grunt) {
           ]
         }]
       },
+      phonegap: ['<%= yeoman.phonegap %>/*', '!<%= yeoman.phonegap %>/config.xml', '!<%= yeoman.phonegap %>/res'],
       server: '.tmp'
     },
 
@@ -429,6 +431,21 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      phonegap: {
+        expand: true,
+        cwd: '<%= yeoman.dist %>',
+        dest: '<%= yeoman.phonegap %>',
+        src: [
+          '*.{ico,png,txt}',
+          '*.html',
+          'ignore/*',
+          'fonts/*',
+          'images/{,*/}*.{webp}',
+          'styles/{,*/}*.*',
+          'images/{,*/}*.*',
+          'scripts/{,*/}*.*'
+        ]
       }
     },
 
@@ -502,6 +519,26 @@ module.exports = function (grunt) {
     'filerev',
     'usemin',
     'htmlmin'
+  ]);
+
+  grunt.registerTask('mobilize', [
+    'clean:dist',
+    'wiredep',
+    'useminPrepare',
+    'concurrent:dist',
+    'postcss',
+    'ngtemplates',
+    'concat',
+    'ngAnnotate',
+    'copy:dist',
+    'cdnify',
+    'cssmin',
+    'uglify',
+    'filerev',
+    'usemin',
+    'htmlmin',
+    'clean:phonegap',
+    'copy:phonegap',
   ]);
 
   grunt.registerTask('default', [

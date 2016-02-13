@@ -79,6 +79,10 @@ body {
       line-height: 40px;
     }
   }
+
+  .counter {
+    line-height: 40px;
+  }
 }
 
 .bar-bottom {
@@ -92,6 +96,9 @@ body {
 
 .editor > .grid-content {
   position: relative;
+  margin-top: 30px;
+  background: $white;
+  box-shadow: 0 0 10px rgba( $black, 0.17 );
 }
 
 .page {
@@ -114,10 +121,8 @@ body {
 
   .page-container {
     position: relative;
-    margin-top: 30px;
-    padding: 30px;
+    padding: 30px 20px;
     background: $white;
-    box-shadow: 0 0 10px rgba( $black, 0.17 );
 
     .editor-overlay {
       position: absolute;
@@ -211,6 +216,10 @@ body {
           font-size: 20px;
           margin-bottom: 10px;
         }
+
+        small {
+          display: block;
+        }
       }
 
       &.showToolbar {
@@ -278,12 +287,21 @@ body {
 
 @include breakpoint( small only ) {
 
+  .modal {
+    padding: 10px 0;
+  }
+
+  .bar {
+    box-shadow: none;
+  }
+
   .bar-top {
     font-size: 14px;
+    border-bottom: 1px solid #D1C9A3;
 
     .begin i {
       position: relative;
-      font-size: 16px;
+      font-size: 24px;
 
       &::after {
         content: '';
@@ -295,13 +313,23 @@ body {
       }
     }
 
+    .logo {
+      text-align: left;
+    }
+
     .logo img {
-      margin-top: 3px;
+      max-height: 28px;
+      margin: 6px 0;
+    }
+
+    .counter {
+      font-size: 21px;
     }
   }
 
   .editor > .grid-content {
     padding: 0;
+    margin-top: 0;
   }
 
   .main {
@@ -311,10 +339,21 @@ body {
   .page .page-container {
     margin-top: 0;
     box-shadow: none;
+    padding: 20px;
+
+    [text-angular] .ta-scroll-window > .ta-bind, [text-angular] .ta-scroll-window > .ta-bind p {
+      font-size: 16px;
+    }
 
     [text-angular] [text-angular-toolbar] .btn-group button {
       font-size: 10px;
     }
+  }
+
+  .bar-bottom {
+    font-size: 18px;
+    font-weight: normal;
+    border-top: 1px solid #D1C9A3;
   }
 
 }

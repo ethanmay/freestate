@@ -11,7 +11,8 @@
     "font-awesome": "~4.5.0",
     "jquery": "~2.2.0",
     "angulartics": "~1.0.3",
-    "angulartics-google-analytics": "~0.1.4"
+    "angulartics-google-analytics": "~0.1.4",
+    "ngCordova": "~0.1.24-alpha"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

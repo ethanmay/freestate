@@ -2,3 +2,6 @@
 /.tmp
 /.sass-cache
 /bower_components
+/platforms
+/plugins
+/www
