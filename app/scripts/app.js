@@ -16,7 +16,8 @@ angular
 		'textAngular',
 		'foundation',
 		'angulartics', 
-		'angulartics.google.analytics'
+		'angulartics.google.analytics',
+		'ngCordova'
 	])
 	.config( [
 		'$urlRouterProvider',
@@ -30,10 +31,6 @@ angular
 				.state('root', {
 					url: '/',
 					templateUrl: 'views/main.html'
-				})
-				.state('about', {
-					url: '/about',
-					templateUrl: 'views/about.html'
 				});
 
 			$locationProvider.html5Mode({

@@ -5,6 +5,6 @@
     ng-model="main.text"
     ng-class="main.showToolbar ? 'showToolbar' : ''"
     ng-change="main.stoppedWriting()"
-    ng-keyup="main.destroyTimers()"></div>
+    ng-keyup="main.destroyTimers( $event )"></div>
   <div class="editor-overlay" ng-hide="main.enableWriting"></div>
 </div>

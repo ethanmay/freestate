@@ -23,7 +23,7 @@ angular.module('freestateApp')
 		    self.showToolbar = false;
 	    	self.enableWriting = false;
 	    	self.counterStarted = false;
-	    	self.text = '<h3 class="text-center"><b>Welcome to FreeState</b></h3><h5 class="text-center">Improve your writing flow.</h5><hr/><p>Set a writing goal for yourself, then set an expiration timer. If you stop writing, the expiration timer starts. If you don\'t start writing again, your work will be erased and you will start over.</p><hr><p>When you\'re ready, click the &nbsp;<i class="fa fa-plus-square"></i>&nbsp; button to begin.</p><p><small><i>Special thanks to <a href="http://www.hailoverman.com/flowstate" target="_blank">FlowState</a> for the app idea, but $15 is way too expensive.</i></small></p>';
+	    	self.text = '<h3 class="text-center"><b>Welcome to FreeState</b></h3><h5 class="text-center">Improve your writing flow.</h5><hr/><p>Set a writing goal for yourself, then set an expiration timer. If you stop writing, the expiration timer starts. If you don\'t start writing again, your work will be erased and you will start over.</p><hr><p>When you\'re ready, click the &nbsp;<i class="fa fa-plus-square"></i>&nbsp; button to begin.</p>';
 			self.timer = 0;
 			self.editMode = false;
 			self.wordCount = 0;
@@ -79,7 +79,8 @@ angular.module('freestateApp')
 	    	self.timer = self.limit.expiry;
 
 	    	self.editor.scope.displayElements.text.click( function() {
-	    		self.editor.scope.displayElements.text.html('');
+	    		self.editor.scope.displayElements.text.html('&nbsp;');
+				textAngularManager.refreshEditor('text-editor');
 	    		if( self.limit.type === 'words' ) {
 		    		self.wordCount = self.limit.value;
 	    		}
@@ -99,11 +100,12 @@ angular.module('freestateApp')
 	    };
 
 	    self.stoppedWriting = function() {
-	    	if( self.enableWriting === true && self.text !== '' && self.text !== '<p></p>' && !self.editMode ) {
+	    	console.log(self.text);
+	    	if( self.enableWriting === true && !self.editMode && self.text !== '<p> </p>' ) {
     			self.detonate = $timeout( function() {
 					$analytics.eventTrack('TIME UP Cleared Document');
+					self.editor.scope.displayElements.text.html('&nbsp;');
 					textAngularManager.refreshEditor('text-editor');
-					self.editor.scope.displayElements.text.html('');
     				self.timer = self.limit.expiry;
     				angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', 1);
 			    	$interval.cancel( self.eraseTimer );
@@ -119,23 +121,26 @@ angular.module('freestateApp')
     		}
 	    };
 
-	    self.destroyTimers = function() {
-	    	if( self.detonate || self.eraseTimer ) {
-	    		self.timer = self.limit.expiry;
-		    	angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', 1);
-	    	}
-	    	if( self.detonate ) {
-		    	$timeout.cancel( self.detonate );
-    		}
-    		if( self.eraseTimer ) {
-    			$interval.cancel( self.eraseTimer );
-    		}
-
-    		if( self.enableWriting === true && self.counterStarted === false ) {
-	    		if( self.limit.type === 'time' ) {
-	    			self.beginWritingByTime();
+	    self.destroyTimers = function( $event ) {
+	    	var inp = String.fromCharCode( $event.keyCode );
+			if ( /[a-zA-Z0-9-_ ]/.test( inp ) || $event.keyCode === 13 ) {
+				if( self.detonate || self.eraseTimer ) {
+		    		self.timer = self.limit.expiry;
+			    	angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', 1);
+		    	}
+		    	if( self.detonate ) {
+			    	$timeout.cancel( self.detonate );
 	    		}
-	    	}
+	    		if( self.eraseTimer ) {
+	    			$interval.cancel( self.eraseTimer );
+	    		}
+
+	    		if( self.enableWriting === true && self.counterStarted === false ) {
+		    		if( self.limit.type === 'time' ) {
+		    			self.beginWritingByTime();
+		    		}
+		    	}
+			}
 	    };
 
 	    self.beginWritingByTime = function() {
