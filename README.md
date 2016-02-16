@@ -1,4 +1,4 @@
-# [FreeState](http://ethanmay.github.io/freestate)
+# [FreeState](https://ethanmay.github.io/freestate)
 
 Improve your writing flow.
 

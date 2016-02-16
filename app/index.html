@@ -30,9 +30,10 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 
     <script type="text/javascript">
-      var imgurl = document.getElementById('ogimg').getAttribute('content');
-      imgurl = 'http://ethanmay.github.io/freestate/' + imgurl;
-      document.getElementById('ogimg').setAttribute('content', imgurl);
+      var host = 'ethanmay.github.io';
+      if ( ( host == window.location.host ) && ( window.location.protocol != 'https:' ) ) {
+        window.location.protocol = "https";
+      }
     </script>
 
     <script type="text/javascript">

@@ -26,5 +26,8 @@
         "dist/js/foundation-apps-templates.js"
       ]
     }
+  },
+  "resolutions": {
+    "angular": "^1.4.0"
   }
 }
