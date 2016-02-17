@@ -6,10 +6,6 @@
   "scripts": {
     "start": "node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:ethanmay/tipr-middleware.git"
-  },
   "author": "Ethan May <ethanmayedu@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -17,31 +13,14 @@
     "express": "~3.3.4",
     "mysql": "^2.10.2",
     "passport": "^0.3.2",
-    "passport-amazon": "^1.0.0",
     "passport-anonymous": "^1.0.1",
-    "passport-coinbase": "^0.1.2",
-    "passport-dribbble": "^1.0.1",
-    "passport-dwolla": "^1.0.0",
     "passport-evernote": "^1.0.1",
     "passport-facebook": "^2.1.0",
-    "passport-flickr": "^0.2.0",
-    "passport-foursquare": "^1.0.0",
-    "passport-github2": "^0.1.9",
     "passport-google-oauth2": "^0.1.6",
     "passport-http-bearer": "^1.0.1",
-    "passport-imgur": "0.0.3",
-    "passport-instagram": "^1.0.0",
-    "passport-linkedin-oauth2": "^1.4.0",
     "passport-local": "^1.0.0",
-    "passport-meetup-oauth2": "0.0.2",
-    "passport-openidconnect": "0.0.1",
-    "passport-paypal-oauth": "^0.1.0",
     "passport-reddit": "^0.2.4",
     "passport-tumblr": "^0.1.2",
-    "passport-twitter": "^1.0.3",
-    "passport-vimeo-oauth2": "0.0.3",
-    "passport-windowslive": "^1.0.2",
-    "passport-yahoo": "^0.3.0",
-    "passport-youtube-v3": "^2.0.0"
+    "passport-twitter": "^1.0.3"
   }
 }
