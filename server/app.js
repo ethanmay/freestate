@@ -1,9 +1,9 @@
 // dependencies
 var express = require('express');
 var config = require('./oauth.js');
+var mongoose = require('mongoose');
 var passport = require('passport');
 var util = require('util');
-var User = require('./db.js');
 var fbAuth = require('./authentication.js');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GithubStrategy = require('passport-github2').Strategy;
@@ -23,6 +23,8 @@ app.configure(function() {
   app.use(passport.initialize());
   app.use(passport.session());
 });
+
+mongoose.connect('mongodb://localhost/passport-example');
 
 // serialize and deserialize
 passport.serializeUser(function(user, done) {
