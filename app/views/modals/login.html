@@ -1,0 +1,13 @@
+<div class="grid-block" ng-controller="LoginCtrl as login">
+	<div class="grid-content text-center">
+		<h1><i class="fa fa-sign-in"></i></h1>
+		<h3>Sign In</h3>
+		<p>You can save your work, or export it to your favorite network.</p>
+		<ul class="button-group">
+			<li><a class="text-center" ng-click="login.socialLogin( 'facebook' )"><i class="fa fa-facebook-square"></i></a></li>
+			<li><a class="text-center" ng-click="closeModal()">Skip</a></li>
+		</ul>
+	</div>
+</div>
+
+<a zf-close="" class="close-modal"><i class="fa fa-close"></i></a>

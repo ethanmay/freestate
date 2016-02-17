@@ -96,7 +96,7 @@
                   </div>
                 </div>
                 <div class="begin" ng-hide="main.limit">
-                  <a ng-click="main.startCreateProcess()" analytics-on="click" analytics-event="New Document">
+                  <a ng-click="main.initLogin()" analytics-on="click" analytics-event="New Document">
                     <i class="fa fa-plus-square"></i>
                   </a>
                 </div>
@@ -177,6 +177,7 @@
     <script src="bower_components/angulartics/src/angulartics.js"></script>
     <script src="bower_components/angulartics-google-analytics/lib/angulartics-google-analytics.js"></script>
     <script src="bower_components/ngCordova/dist/ng-cordova.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -186,6 +187,9 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/setup.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/services/auth.js"></script>
+        <script src="scripts/services/user.js"></script>
         <script src="scripts/directives/stopEvent.js"></script>
         <!-- endbuild -->
 </body>

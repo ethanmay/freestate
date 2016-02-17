@@ -70,6 +70,37 @@ angular.module('freestateApp')
 			modal.activate();
 	    };
 
+	    self.initLogin = function() {
+		    var modal = new ModalFactory({
+				// Add CSS classes to the modal
+				// Can be a single string or an array of classes
+				class: 'small dialog',
+				// Set if the modal has a background overlay
+				overlay: true,
+				// Set if the modal can be closed by clicking on the overlay
+				overlayClose: true,
+				// Define a template to use for the modal
+				templateUrl: 'views/modals/login.html',
+				// Allows you to pass in properties to the scope of the modal
+				contentScope: {
+					closeModal: function( user ) {
+						modal.deactivate();
+
+						$timeout(function() {
+							modal.destroy();
+						}, 1000);
+
+						if( user ) {
+							console.log('User: ', user);
+						}
+						
+						self.startCreateProcess();
+					}
+				}
+			});
+			modal.activate();
+	    };
+
 	    self.initWritingContainer = function() {
 	    	$analytics.eventTrack('Started Writing Session');
 		    angular.element('.page-container').css( 'min-height', angular.element('.page-container').outerHeight() + 8 );
