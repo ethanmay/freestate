@@ -1,26 +1,22 @@
 {
-  "name": "freestate-server",
-  "version": "0.0.1",
-  "description": "Server for the freestate app",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
-  "author": "Ethan May <ethanmayedu@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "ejs": "^2.4.1",
-    "express": "~3.3.4",
-    "mysql": "^2.10.2",
-    "passport": "^0.3.2",
-    "passport-anonymous": "^1.0.1",
-    "passport-evernote": "^1.0.1",
-    "passport-facebook": "^2.1.0",
-    "passport-google-oauth2": "^0.1.6",
-    "passport-http-bearer": "^1.0.1",
-    "passport-local": "^1.0.0",
-    "passport-reddit": "^0.2.4",
-    "passport-tumblr": "^0.1.2",
-    "passport-twitter": "^1.0.3"
+  "name": "node-authentication",
+  "main": "server.js",
+  "dependencies" : {
+    "express" : "~4.0.0",
+    "ejs" : "~0.8.5",
+    "mongoose" : "~4.4.4",
+    "passport" : "~0.3.2",
+    "passport-local" : "~1.0.0",
+    "passport-facebook" : "~2.1.0",
+    "passport-twitter" : "~1.0.4",
+    "passport-google-oauth" : "~1.0.0",
+    "connect-flash" : "~0.1.1",
+    "bcrypt-nodejs" : "latest",
+
+    "morgan": "~1.0.0",
+    "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.0",
+    "method-override": "~1.0.0",
+    "express-session": "~1.0.0"
   }
 }

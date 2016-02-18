@@ -12,7 +12,7 @@ angular.module('freestateApp')
 	var self = this;
 
 	self.socialLogin = function( network ) {
-		AuthService.login( network );
-		$scope.closeModal();
+		AuthService.socialLogin( network );
+		// $scope.closeModal();
 	};
 }]);
