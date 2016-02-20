@@ -68,7 +68,14 @@ angular
         	$rootScope.user = { _id: false, name: false, local: { email: false } };
 			AuthService.check().then( function( user ) {
 				if( user ) {
-					AuthService.set( user );
+					if( !user.local && !user.facebook.token && !user.twitter.token && !user.google.token ) {
+						console.log('Logging user out.');
+			        	AuthService.logout().then( function() {
+				        	$rootScope.user = { _id: false, name: false, local: { email: false } };
+						});
+					} else {
+						AuthService.set( user );
+					}
 				} else {
 					$rootScope.user = { _id: false, name: false, local: { email: false } };
 				}

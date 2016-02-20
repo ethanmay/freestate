@@ -13,10 +13,22 @@
 			<h4>Connect Accounts</h4>
 			<p>Add ways to share your work.</p>
 			<ul class="button-group expand">
-				<li><a class="text-center email" ng-click="login.step = 'emailRegister'" ng-class="!user.local ? '' : 'active'"><i class="fa fa-envelope"></i></a></li>
-				<li><a class="text-center facebook" ng-click="login.socialLogin( 'facebook' )" ng-class="!user.facebook ? '' : 'active'"><i class="fa fa-facebook-square"></i></a></li>
-				<li><a class="text-center twitter" ng-click="login.socialLogin( 'twitter' )" ng-class="!user.twitter ? '' : 'active'"><i class="fa fa-twitter-square"></i></a></li>
-				<li><a class="text-center google" ng-click="login.socialLogin( 'google' )" ng-class="!user.google ? '' : 'active'"><i class="fa fa-google-plus-square"></i></a></li>
+				<li>
+					<a class="text-center email" ng-click="login.step = 'emailRegister'" ng-class="user.local.password ? 'active' : ''"><i class="fa fa-envelope"></i></a>
+					<span class="disconnect" ng-click="login.unlink( 'local' )" ng-if="user.local.password"><i class="fa fa-close"></i></span>
+				</li>
+				<li>
+					<a class="text-center facebook" ng-click="login.socialLogin( 'facebook' )" ng-class="user.facebook.token ? 'active' : ''"><i class="fa fa-facebook-square"></i></a>
+					<span class="disconnect" ng-click="login.unlink( 'facebook' )" ng-if="user.facebook.token"><i class="fa fa-close"></i></span>
+				</li>
+				<li>
+					<a class="text-center twitter" ng-click="login.socialLogin( 'twitter' )" ng-class="user.twitter.token ? 'active' : ''"><i class="fa fa-twitter-square"></i></a>
+					<span class="disconnect" ng-click="login.unlink( 'twitter' )" ng-if="user.twitter.token"><i class="fa fa-close"></i></span>
+				</li>
+				<li>
+					<a class="text-center google" ng-click="login.socialLogin( 'google' )" ng-class="user.google.token ? 'active' : ''"><i class="fa fa-google-plus-square"></i></a>
+					<span class="disconnect" ng-click="login.unlink( 'google' )" ng-if="user.google.token"><i class="fa fa-close"></i></span>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -41,7 +53,7 @@
 		<div class="grid-content text-center">
 			<h1><i class="fa fa-sign-in"></i></h1>
 			<h3>Log In</h3>
-			<p>Welcome back! Select an option below to login.</p>
+			<p>Welcome back! Select an option below to log in.</p>
 			<ul class="button-group expand">
 				<li><a class="text-center" ng-click="login.step = 'emailLogin'"><i class="fa fa-envelope"></i></a></li>
 				<li><a class="text-center" ng-click="login.socialLogin( 'facebook' )"><i class="fa fa-facebook-square"></i></a></li>

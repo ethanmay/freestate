@@ -148,39 +148,39 @@ module.exports = function(app, passport, cors) {
 // user account will stay active in case they want to reconnect in the future
 
     // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn, function(req, res) {
+    app.get('/unlink/local', cors(corsOptions), isLoggedIn, function(req, res) {
         var user            = req.user;
         user.local.email    = undefined;
         user.local.password = undefined;
         user.save(function(err) {
-            res.redirect('/profile');
+            res.send( user );
         });
     });
 
     // facebook -------------------------------
-    app.get('/unlink/facebook', isLoggedIn, function(req, res) {
+    app.get('/unlink/facebook', cors(corsOptions), isLoggedIn, function(req, res) {
         var user            = req.user;
         user.facebook.token = undefined;
         user.save(function(err) {
-            res.redirect('/profile');
+            res.send( user );
         });
     });
 
     // twitter --------------------------------
-    app.get('/unlink/twitter', isLoggedIn, function(req, res) {
+    app.get('/unlink/twitter', cors(corsOptions), isLoggedIn, function(req, res) {
         var user           = req.user;
         user.twitter.token = undefined;
         user.save(function(err) {
-            res.redirect('/profile');
+            res.send( user );
         });
     });
 
     // google ---------------------------------
-    app.get('/unlink/google', isLoggedIn, function(req, res) {
+    app.get('/unlink/google', cors(corsOptions), isLoggedIn, function(req, res) {
         var user          = req.user;
         user.google.token = undefined;
         user.save(function(err) {
-            res.redirect('/profile');
+            res.send( user );
         });
     });
 

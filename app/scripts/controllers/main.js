@@ -31,7 +31,7 @@ angular.module('freestateApp')
 		    var windowHeight = angular.element(window).outerHeight();
 		    var headHeight = angular.element('.bar-top').outerHeight();
 		    var footHeight = angular.element('.bar-bottom').outerHeight();
-		    var total = ( windowHeight - ( headHeight + footHeight ) ) + 18;
+		    var total = windowHeight - ( headHeight + footHeight );
 
 		    $timeout( function() {
 			    angular.element('.page-container').css( 'min-height', total );

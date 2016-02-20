@@ -246,6 +246,28 @@ body {
     color: $purple;
   }
 
+  .button-group li {
+    position: relative;
+  }
+
+  .button-group .disconnect {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 30px;
+    color: $white;
+    background: rgba( $white, 0.3 );
+    border-bottom-left-radius: 12px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba( $white, 0.5 );
+    }
+  }
+
   .button, .button-group li a {
     background: $tan;
     outline: none;

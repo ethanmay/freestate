@@ -14,9 +14,7 @@ angular.module('freestateApp')
       var d = $q.defer();
       $http.get( 'http://127.0.0.1:8080/auth/check', { withCredentials: true } )
         .success( function( response ){
-          // var data = AuthService.decode( token );
           d.resolve( response );
-          // AuthService.setToken( token ); 
         })
         .error( function( err ) {
           d.reject( err );
@@ -28,9 +26,7 @@ angular.module('freestateApp')
       var d = $q.defer();
       $http.post( 'http://127.0.0.1:8080/login', data, { withCredentials: true } )
         .success( function( response ){
-          // var data = AuthService.decode( token );
           d.resolve( response );
-          // AuthService.setToken( token ); 
         })
         .error( function( err ) {
           d.reject( err );
@@ -48,9 +44,7 @@ angular.module('freestateApp')
       var d = $q.defer();
       $http.post( url, data, { withCredentials: true } )
         .success( function( response ){
-          // var data = AuthService.decode( token );
           d.resolve( response );
-          // AuthService.setToken( token ); 
         })
         .error( function( err ) {
           d.reject( err );
@@ -82,42 +76,56 @@ angular.module('freestateApp')
       }, false );
   	}
 
-    function setUser( user ) {
-      if( !$rootScope.user._id ) {
+    function setUser( user, hardReset ) {
+      if( !$rootScope.user._id || hardReset ) {
         $rootScope.user = user;
       }
-      if( user.local && !$rootScope.user.name ) {
-        $rootScope.user.name = $rootScope.user.local.email;
-      }
-      if( user.facebook && !$rootScope.user.name || $rootScope.user.name === $rootScope.user.local.email ) {
-        $rootScope.user.name = user.facebook.name;
-      } else if( user.twitter && !$rootScope.user.name || $rootScope.user.name === $rootScope.user.local.email ) {
-        $rootScope.user.name = user.twitter.displayName;
-      } else if( user.google && !$rootScope.user.name || $rootScope.user.name === $rootScope.user.local.email ) {
-        $rootScope.user.name = user.google.name;
-      }
-      if( user.local && !$rootScope.user.local.email ) {
+      if( user.local ) {
         $rootScope.user.local = user.local;
+        if( !$rootScope.user.name ) {
+          $rootScope.user.name = $rootScope.user.local.email;  
+        }
+      } else {
+        user.local = { email: false };
       }
-      if( user.facebook && !$rootScope.user.facebook ) {
+      if( user.facebook ) {
         $rootScope.user.facebook = user.facebook;
+        if( !$rootScope.user.name || $rootScope.user.name === $rootScope.user.local.email ) {
+          $rootScope.user.name = user.facebook.name;  
+        }
       }
-      if( user.twitter && !$rootScope.user.twitter ) {
+      if( user.twitter ) {
         $rootScope.user.twitter = user.twitter;
+        if( !$rootScope.user.name || $rootScope.user.name === $rootScope.user.local.email ) {
+          $rootScope.user.name = user.twitter.displayName;  
+        }
       }
-      if( user.google && !$rootScope.user.google ) {
+      if( user.google ) {
         $rootScope.user.google = user.google;
+        if( !$rootScope.user.name || $rootScope.user.name === $rootScope.user.local.email ) {
+          $rootScope.user.name = user.google.name;  
+        }
       }
       console.log($rootScope.user);
+    }
+
+    function unlinkAccount( network ) {
+      var d = $q.defer();
+      $http.get( 'http://127.0.0.1:8080/unlink/' + network, { withCredentials: true } )
+        .success( function( response ){
+          d.resolve( response );
+        })
+        .error( function( err ) {
+          d.reject( err );
+        });
+      return d.promise;
     }
 
     function logOut() {
       var d = $q.defer();
       $http.delete( 'http://127.0.0.1:8080/logout', { withCredentials: true } )
         .success( function( response ){
-          // var data = AuthService.decode( token );
           d.resolve( response );
-          // AuthService.setToken( token ); 
         })
         .error( function( err ) {
           d.reject( err );
@@ -131,6 +139,7 @@ angular.module('freestateApp')
   		socialLogin: socialLogin,
       signUp: signUp,
       set: setUser,
+      unlink: unlinkAccount,
       logout: logOut
   	};
 

@@ -46,6 +46,15 @@ angular.module('freestateApp')
 		});
 	};
 
+	self.unlink = function( network ) {
+		AuthService.unlink( network ).then( function( user ) {
+			AuthService.set( user, true );
+			if( !user.local.password && !user.facebook.token && !user.twitter.token && !user.google.token ) {
+	        	self.logout();
+			}
+		});
+	};
+
 	self.logout = function() {
 		AuthService.logout().then( function() {
         	$rootScope.user = { _id: false, name: false, local: { email: false } };
