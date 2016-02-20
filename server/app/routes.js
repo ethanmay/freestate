@@ -1,18 +1,20 @@
-module.exports = function(app, passport) {
+module.exports = function(app, passport, cors) {
+
+    var corsOptions = { origin: 'http://localhost:9000' };
 
 // normal routes ===============================================================
 
     // AUTH CHECK =========================
-    app.get('/auth/check', isLoggedIn, function(req, res) {
-        res.render('profile.ejs', {
-            user : req.user
-        });
+    app.get('/auth/check', cors(corsOptions), isLoggedIn, function(req, res) {
+        res.send( req.user );
     });
 
     // LOGOUT ==============================
-    app.get('/logout', function(req, res) {
+    app.options('/logout', cors(corsOptions));
+    app.delete('/logout', cors(corsOptions), function(req, res, next) {
         req.logout();
-        res.redirect('/');
+        res.writeHead(200);
+        res.end();
     });
 
 // =============================================================================
@@ -20,31 +22,24 @@ module.exports = function(app, passport) {
 // =============================================================================
 
     // locally --------------------------------
-        // LOGIN ===============================
-        // show the login form
-        app.get('/login', function(req, res) {
-            res.render('login.ejs', { message: req.flash('loginMessage') });
-        });
 
-        // process the login form
-        app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+        // LOGIN ===============================
+        app.options('/login', cors(corsOptions));
+        app.post('/login', cors(corsOptions), passport.authenticate('local-login'), function( req, res ) {
+            req.login( req.user, function( err ) {
+                if (err) { return next(err); }
+                res.send( req.user );
+            });
+        });
 
         // SIGNUP =================================
-        // show the signup form
-        app.get('/signup', function(req, res) {
-            res.render('signup.ejs', { message: req.flash('signupMessage') });
+        app.options('/signup', cors(corsOptions));
+        app.post('/signup', cors(corsOptions), passport.authenticate('local-signup'), function( req, res ) {
+            req.login( req.user, function( err ) {
+                if (err) { return next(err); }
+                res.send( req.user );
+            });
         });
-
-        // process the signup form
-        app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/signup', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
 
     // facebook -------------------------------
 
@@ -53,10 +48,13 @@ module.exports = function(app, passport) {
 
         // handle the callback after facebook has authenticated the user
         app.get('/auth/facebook/callback',
-            passport.authenticate('facebook', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+            passport.authenticate('facebook'), function( req, res ) {
+                if( req.user ) {
+                    renderSuccess( res, req.user );
+                } else {
+                    renderFailure( res, res.err );
+                }
+            });
 
     // twitter --------------------------------
 
@@ -65,10 +63,13 @@ module.exports = function(app, passport) {
 
         // handle the callback after twitter has authenticated the user
         app.get('/auth/twitter/callback',
-            passport.authenticate('twitter', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+            passport.authenticate('twitter'), function( req, res ) {
+                if( req.user ) {
+                    renderSuccess( res, req.user );
+                } else {
+                    renderFailure( res, res.err );
+                }
+            });
 
 
     // google ---------------------------------
@@ -78,24 +79,23 @@ module.exports = function(app, passport) {
 
         // the callback after google has authenticated the user
         app.get('/auth/google/callback',
-            passport.authenticate('google', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+            passport.authenticate('google'), function( req, res ) {
+                if( req.user ) {
+                    renderSuccess( res, req.user );
+                } else {
+                    renderFailure( res, res.err );
+                }
+            });
 
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
 
     // locally --------------------------------
-        app.get('/connect/local', function(req, res) {
-            res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+        app.options('/connect/local', cors(corsOptions));
+        app.post('/connect/local', cors(corsOptions), passport.authenticate('local-signup'), function( req, res ) {
+            res.send( req.user );
         });
-        app.post('/connect/local', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
 
     // facebook -------------------------------
 
@@ -104,10 +104,7 @@ module.exports = function(app, passport) {
 
         // handle the callback after facebook has authorized the user
         app.get('/connect/facebook/callback',
-            passport.authorize('facebook', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+            passport.authorize('facebook'));
 
     // twitter --------------------------------
 
@@ -119,7 +116,13 @@ module.exports = function(app, passport) {
             passport.authorize('twitter', {
                 successRedirect : '/profile',
                 failureRedirect : '/'
-            }));
+            }), function( req, res ) {
+                if( req.user ) {
+                    renderSuccess( res, req.user );
+                } else {
+                    renderFailure( res, res.err );
+                }
+            });
 
 
     // google ---------------------------------
@@ -129,10 +132,13 @@ module.exports = function(app, passport) {
 
         // the callback after google has authorized the user
         app.get('/connect/google/callback',
-            passport.authorize('google', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
-            }));
+            passport.authorize('google'), function( req, res ) {
+                if( req.user ) {
+                    renderSuccess( res, req.user );
+                } else {
+                    renderFailure( res, res.err );
+                }
+            });
 
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
@@ -183,8 +189,20 @@ module.exports = function(app, passport) {
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()) {
         return next();
+    }
 
-    res.redirect('/');
+    res.send( false );
 }
+
+/*
+    Success/Fail Routes
+ */
+function renderSuccess( res, user ) {
+    res.render('after-auth', { state: 'success', user: user, error: null });
+};
+
+function renderFailure( res, err ) {
+    res.render('after-auth', { state: 'failure', user: null, error: err });
+};

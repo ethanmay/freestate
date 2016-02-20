@@ -9,83 +9,84 @@
  */
 angular.module('freestateApp')
   .controller('SetupCtrl', [ '$scope', function( $scope ){
-    
-    this.init = function() {
-        this.expiry = 0;
-	    this.timeLimit = {
+    var self = this;
+
+    self.init = function() {
+        self.expiry = 0;
+	    self.timeLimit = {
 	    	min: 0,
 	    	hrs: 0
 	    };
-	    this.wordLimit = 0;
-	    this.buttonText = 'BEGIN';
-        this.limit = {};
+	    self.wordLimit = 0;
+	    self.buttonText = 'BEGIN';
+        self.limit = {};
     };
 
-    this.validifyTime = function() {
-    	var lim = this.timeLimit;
+    self.validifyTime = function() {
+    	var lim = self.timeLimit;
     	
     	if( ( lim.min < 0 || lim.hrs < 0 ) || ( lim.hrs === 0 && lim.min === 0 ) || ( !lim.hrs && !lim.min ) ) {
-    		this.buttonText = 'Time only goes forward...';
+    		self.buttonText = 'Time only goes forward...';
     	} else {
-		    this.buttonText = 'Next';
+		    self.buttonText = 'Next';
     	}
     };
 
-    this.limitByTime = function() {
-    	var lim = this.timeLimit;
+    self.limitByTime = function() {
+    	var lim = self.timeLimit;
 
     	if( ( lim.min < 0 || lim.hrs < 0 ) || ( lim.hrs === 0 && lim.min === 0 ) || ( !lim.hrs && !lim.min ) ) {
-    		this.buttonText = 'Time only goes forward...';
+    		self.buttonText = 'Time only goes forward...';
     		return false;
     	} else {
-    		this.limit.type = 'time';
-    		this.limit.value = lim;
-            this.buttonText = 'BEGIN';
+    		self.limit.type = 'time';
+    		self.limit.value = lim;
+            self.buttonText = 'BEGIN';
             $scope.step = 'expire';
     	}
     };
 
-    this.validifyWords = function() {
-    	if( this.wordLimit <= 0 || !this.wordLimit ) {
-    		this.buttonText = 'That doesn\'t make sense...';
+    self.validifyWords = function() {
+    	if( self.wordLimit <= 0 || !self.wordLimit ) {
+    		self.buttonText = 'That doesn\'t make sense...';
     	} else {
-		    this.buttonText = 'Next';
+		    self.buttonText = 'Next';
     	}
     };
 
-    this.limitByWords = function() {
-    	if( this.wordLimit <= 0 || !this.wordLimit ) {
-    		this.buttonText = 'That doesn\'t make sense...';
+    self.limitByWords = function() {
+    	if( self.wordLimit <= 0 || !self.wordLimit ) {
+    		self.buttonText = 'That doesn\'t make sense...';
     		return false;
     	} else {
-    		this.limit.type = 'words';
-    		this.limit.value = this.wordLimit;
-            this.buttonText = 'BEGIN';
+    		self.limit.type = 'words';
+    		self.limit.value = self.wordLimit;
+            self.buttonText = 'BEGIN';
     		$scope.step = 'expire';
     	}
     };
 
-    this.validifyExpiry = function() {
-        var lim = this.expiry;
+    self.validifyExpiry = function() {
+        var lim = self.expiry;
         
         if( lim < 0 || lim === 0 || !lim ) {
-            this.buttonText = 'Time only goes forward...';
+            self.buttonText = 'Time only goes forward...';
         } else {
-            this.buttonText = 'BEGIN';
+            self.buttonText = 'BEGIN';
         }
     };
 
-    this.setExpirationTime = function() {
-        var lim = this.expiry;
+    self.setExpirationTime = function() {
+        var lim = self.expiry;
 
         if( lim < 0 || lim === 0 || !lim ) {
-            this.buttonText = 'Time only goes forward...';
+            self.buttonText = 'Time only goes forward...';
             return false;
         } else {
-            this.limit.expiry = lim;
-            $scope.closeModal( this.limit );
+            self.limit.expiry = lim;
+            $scope.closeModal( self.limit );
         }
     };
 
-    this.init();
+    self.init();
   }]);

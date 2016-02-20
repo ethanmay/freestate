@@ -242,7 +242,7 @@ body {
 .modal {
   cursor: initial;
 
-  h1 {
+  h1, h2 {
     color: $purple;
   }
 
@@ -255,7 +255,6 @@ body {
 
     i {
       font-size: 24px;
-      margin-bottom: 5px;
     }
 
     &:hover {
@@ -263,6 +262,15 @@ body {
       color: $tan;
     }
   }
+}
+
+.info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 10px;
+    line-height: 16px;
+    max-width: 47%;
 }
 
 .go-back, .close-modal {
@@ -283,6 +291,27 @@ body {
 
 .close-modal {
   right: 0;
+}
+
+a.email.active {
+  background: $purple !important;
+  border-color: $white !important;
+  i { color: $white; }
+}
+a.facebook.active {
+  background: #3b5998 !important;
+  border-color: $white !important;
+  i { color: $white; }
+}
+a.twitter.active {
+  background: #4099FF !important;
+  border-color: $white !important;
+  i { color: $white; }
+}
+a.google.active {
+  background: #d34836 !important;
+  border-color: $white !important;
+  i { color: $white; }
 }
 
 @include breakpoint( small only ) {

@@ -39,7 +39,7 @@ angular
 				requireBase: false
 			});
 		}])
-		.run( [ 'ModalFactory', '$timeout', function( ModalFactory, $timeout ){
+		.run( [ 'ModalFactory', 'AuthService', '$rootScope', '$timeout', function( ModalFactory, AuthService, $rootScope, $timeout ){
 			FastClick.attach( document.body );
 			if( window.mobilecheck() ) {
 				var modal = new ModalFactory({
@@ -64,4 +64,13 @@ angular
 				});
 				modal.activate();
 			}
+
+        	$rootScope.user = { _id: false, name: false, local: { email: false } };
+			AuthService.check().then( function( user ) {
+				if( user ) {
+					AuthService.set( user );
+				} else {
+					$rootScope.user = { _id: false, name: false, local: { email: false } };
+				}
+			});
 		}]);

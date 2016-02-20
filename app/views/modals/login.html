@@ -1,13 +1,113 @@
-<div class="grid-block" ng-controller="LoginCtrl as login">
-	<div class="grid-content text-center">
-		<h1><i class="fa fa-sign-in"></i></h1>
-		<h3>Sign In</h3>
-		<p>You can save your work, or export it to your favorite network.</p>
-		<ul class="button-group">
-			<li><a class="text-center" ng-click="login.socialLogin( 'facebook' )"><i class="fa fa-facebook-square"></i></a></li>
-			<li><a class="text-center" ng-click="closeModal()">Skip</a></li>
-		</ul>
+<div ng-controller="LoginCtrl as login" ng-init="login.step = 1">
+	<div class="grid-block" ng-show="login.step === 1" ng-if="user._id">
+		<div class="info">
+			Logged in as {{ user.name }}<br><a ng-click="login.logout()"><i class="fa fa-sign-out"></i> Log out</a>
+		</div>
+		<div class="grid-content text-center">
+			<h2><i class="fa fa-plus-square"></i></h2>
+			<h4>Start Writing</h4>
+			<p>Get those juices flowing!</p>
+			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>
+			<hr>
+			<h2><i class="fa fa-cogs"></i></h2>
+			<h4>Connect Accounts</h4>
+			<p>Add ways to share your work.</p>
+			<ul class="button-group expand">
+				<li><a class="text-center email" ng-click="login.step = 'emailRegister'" ng-class="!user.local ? '' : 'active'"><i class="fa fa-envelope"></i></a></li>
+				<li><a class="text-center facebook" ng-click="login.socialLogin( 'facebook' )" ng-class="!user.facebook ? '' : 'active'"><i class="fa fa-facebook-square"></i></a></li>
+				<li><a class="text-center twitter" ng-click="login.socialLogin( 'twitter' )" ng-class="!user.twitter ? '' : 'active'"><i class="fa fa-twitter-square"></i></a></li>
+				<li><a class="text-center google" ng-click="login.socialLogin( 'google' )" ng-class="!user.google ? '' : 'active'"><i class="fa fa-google-plus-square"></i></a></li>
+			</ul>
+		</div>
 	</div>
-</div>
+	<div class="grid-block" ng-show="login.step === 1" ng-if="!user._id">
+		<div class="grid-content text-center">
+			<h1><i class="fa fa-plus-square"></i></h1>
+			<h3>Start Writing</h3>
+			<p>Get those juices flowing!</p>
+			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>
+			<hr>
+			<h1><i class="fa fa-sign-in"></i></h1>
+			<h3>Wanna Save?</h3>
+			<p>Log in or register to save your work or export it. <i>It's free.</i></p>
+			<ul class="button-group expand">
+				<li><a class="text-center" ng-click="login.step = 'login'">Log In</a></li>
+				<li><a class="text-center" ng-click="login.step = 'register'">Create Account</a></li>
+				<li><a class="text-center" ng-click="closeModal()">Skip</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="grid-block" ng-if="login.step === 'login'">
+		<div class="grid-content text-center">
+			<h1><i class="fa fa-sign-in"></i></h1>
+			<h3>Log In</h3>
+			<p>Welcome back! Select an option below to login.</p>
+			<ul class="button-group expand">
+				<li><a class="text-center" ng-click="login.step = 'emailLogin'"><i class="fa fa-envelope"></i></a></li>
+				<li><a class="text-center" ng-click="login.socialLogin( 'facebook' )"><i class="fa fa-facebook-square"></i></a></li>
+				<li><a class="text-center" ng-click="login.socialLogin( 'twitter' )"><i class="fa fa-twitter-square"></i></a></li>
+				<li><a class="text-center" ng-click="login.socialLogin( 'google' )"><i class="fa fa-google-plus-square"></i></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="grid-block" ng-if="login.step === 'register'">
+		<div class="grid-content text-center">
+			<h1><i class="fa fa-sign-in"></i></h1>
+			<h3>Create Account</h3>
+			<p>You can save your work, or export it to your favorite network.</p>
+			<ul class="button-group expand">
+				<li><a class="text-center" ng-click="login.step = 'emailRegister'"><i class="fa fa-envelope"></i></a></li>
+				<li><a class="text-center" ng-click="login.socialLogin( 'facebook' )"><i class="fa fa-facebook-square"></i></a></li>
+				<li><a class="text-center" ng-click="login.socialLogin( 'twitter' )"><i class="fa fa-twitter-square"></i></a></li>
+				<li><a class="text-center" ng-click="login.socialLogin( 'google' )"><i class="fa fa-google-plus-square"></i></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="grid-block" ng-if="login.step === 'emailLogin'">
+		<div class="grid-content text-center">
+			<h1><i class="fa fa-envelope"></i></h1>
+			<h3>Email Log In</h3>
+			<p>Use an email and password to log in.</p>
+			<form ng-model="login.data" ng-submit="login.login()">
+				<div class="grid-block">
+					<div class="grid-content">
+						<label>
+							Email
+							<input type="email" ng-model="login.data.email" placeholder="address@email.com">
+						</label>
+						<label>
+							Password
+							<input type="password" ng-model="login.data.password" placeholder="drowssap">
+						</label>
+						<input class="button expand" value="Log In" type="submit" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="grid-block" ng-if="login.step === 'emailRegister'">
+		<div class="grid-content text-center">
+			<h1><i class="fa fa-envelope"></i></h1>
+			<h3>Email Sign Up</h3>
+			<p>Use an email and password to log in.</p>
+			<form ng-model="login.data" ng-submit="login.signUp()">
+				<div class="grid-block">
+					<div class="grid-content">
+						<label>
+							Email
+							<input type="email" ng-model="login.data.email" placeholder="address@email.com">
+						</label>
+						<label>
+							Password
+							<input type="password" ng-model="login.data.password" placeholder="drowssap">
+						</label>
+						<input class="button expand" value="Sign Up" type="submit" />
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
-<a zf-close="" class="close-modal"><i class="fa fa-close"></i></a>
+	<a class="go-back" ng-click="login.step = 1" ng-show="login.step !== 1"><i class="fa fa-arrow-circle-o-left"></i></a>
+	<a zf-close="" class="close-modal"><i class="fa fa-close"></i></a>
+</div>

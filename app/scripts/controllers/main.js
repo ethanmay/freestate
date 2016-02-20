@@ -83,6 +83,7 @@ angular.module('freestateApp')
 				templateUrl: 'views/modals/login.html',
 				// Allows you to pass in properties to the scope of the modal
 				contentScope: {
+					step: 1,
 					closeModal: function( user ) {
 						modal.deactivate();
 
