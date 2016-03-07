@@ -18,7 +18,8 @@ angular
 		'foundation',
 		'angulartics', 
 		'angulartics.google.analytics',
-		'ngCordova'
+		'ngCordova',
+		'angular-storage'
 	])
 	.config( [
 		'$urlRouterProvider',
@@ -31,6 +32,10 @@ angular
 			$stateProvider
 				.state('root', {
 					url: '/',
+					templateUrl: 'views/main.html'
+				})
+				.state('doc', {
+					url: '/doc/:docid',
 					templateUrl: 'views/main.html'
 				});
 

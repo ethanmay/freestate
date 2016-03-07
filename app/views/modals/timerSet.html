@@ -42,14 +42,14 @@
 				<div class="grid-block">
 					<div class="grid-content text-center">
 						<label>Hours:
-							<input ng-pattern="/^[0-9]*$/" type="number" value="0"  ng-model="setup.timeLimit.hrs" ng-change="setup.validifyTime()">
+							<input ng-pattern="/^[0-9]*$/" type="number" value="0"  ng-model="setup.timeLimit.hrs" ng-focus="setup.clearInput( $event )" ng-change="setup.validifyTime()">
 						</label>
 					</div>
 				</div>
 				<div class="grid-block">
 					<div class="grid-content text-center">
 						<label>Minutes:
-							<input ng-pattern="/^[0-9]*$/" type="number" value="0" ng-model="setup.timeLimit.min" ng-change="setup.validifyTime()">
+							<input ng-pattern="/^[0-9]*$/" type="number" value="0" ng-model="setup.timeLimit.min" ng-focus="setup.clearInput( $event )" ng-change="setup.validifyTime()">
 						</label>
 					</div>
 				</div>
@@ -74,7 +74,7 @@
 			<div class="grid-block">
 				<div class="grid-content text-center">
 					<label>Number of words:
-						<input ng-pattern="/^[0-9]*$/" type="number" value="0" ng-model="setup.wordLimit" ng-change="setup.validifyWords()">
+						<input ng-pattern="/^[0-9]*$/" type="number" value="0" ng-model="setup.wordLimit" ng-focus="setup.clearInput( $event )" ng-change="setup.validifyWords()">
 					</label>
 				</div>
 			</div>
@@ -92,14 +92,14 @@
 				<div class="grid-content text-center">
 					<h1><i class="fa fa-bomb"></i></h1>
 					<h3>Set Expiration Countdown</h3>
-					<p><i>Your work will be erased if you stop writing for {{setup.expiry}} seconds.</i></p>
+					<p><i>Your work will be erased if you stop writing for {{setup.expiry}} seconds.</i><br><small>Disclaimer: Your work will also be lost if you navigate away from this window.</small></p>
 				</div>
 			</div>
 			<div class="grid-block">
 				<div class="grid-block">
 					<div class="grid-content text-center">
 						<label>Seconds:
-							<input ng-pattern="/^[0-9]*$/" type="number" value="0" ng-model="setup.expiry" ng-change="setup.validifyExpiry()">
+							<input ng-pattern="/^[0-9]*$/" type="number" value="0" ng-model="setup.expiry" ng-focus="setup.clearInput( $event )" ng-change="setup.validifyExpiry()">
 						</label>
 					</div>
 				</div>

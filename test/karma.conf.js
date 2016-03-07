@@ -48,6 +48,7 @@ module.exports = function(config) {
       'bower_components/angulartics-google-analytics/lib/angulartics-google-analytics.js',
       'bower_components/ngCordova/dist/ng-cordova.js',
       'bower_components/angular-resource/angular-resource.js',
+      'bower_components/a0-angular-storage/dist/angular-storage.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

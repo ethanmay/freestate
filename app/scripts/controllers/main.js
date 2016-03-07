@@ -15,7 +15,9 @@ angular.module('freestateApp')
   	'textAngularManager',
   	'$scope',
   	'$analytics',
-  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics ){
+  	'AutoSave',
+  	'FoundationApi',
+  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics, AutoSave, FoundationApi ){
 	    var self = this;
 
 	    self.init = function() {
@@ -106,7 +108,7 @@ angular.module('freestateApp')
 	    	$analytics.eventTrack('Started Writing Session');
 		    angular.element('.page-container').css( 'min-height', angular.element('.page-container').outerHeight() + 8 );
 	    	self.enableWriting = true;
-	    	self.text = 'Start typing to begin...';
+	    	self.text = 'Click here and start typing to begin...';
 	    	self.editor = textAngularManager.retrieveEditor('text-editor');
 	    	self.timer = self.limit.expiry;
 
@@ -154,7 +156,14 @@ angular.module('freestateApp')
 	    };
 
 	    self.destroyTimers = function( $event ) {
-	    	var inp = String.fromCharCode( $event.keyCode );
+	    	var inp = '';
+	    	if( $event ) {
+		    	inp = String.fromCharCode( $event.keyCode );
+		    } else {
+		    	inp = null;
+		    	$event = {};
+		    	$event.keyCode = null;
+		    }
 			if ( /[a-zA-Z0-9-_ ]/.test( inp ) || $event.keyCode === 13 ) {
 				if( self.detonate || self.eraseTimer ) {
 		    		self.timer = self.limit.expiry;
@@ -254,6 +263,7 @@ angular.module('freestateApp')
 				}
 			});
 			modal.activate();
+			self.autoSave();
 	    };
 
 	    self.msToTime = function( s ) {
@@ -265,6 +275,24 @@ angular.module('freestateApp')
 			var hrs = (s - min) / 60;
 
 			return { hrs: hrs, min: min, sec: sec };
+		};
+
+		self.autoSave = function() {
+			var d = new Date();
+			var id = FoundationApi.generateUuid().replace('zf-uuid-', '');
+			var doc = {
+				_id: id,
+				created: d,
+				title: 'Autosave on ' + d.toDateString() + ' ' + d.toLocaleTimeString(),
+				content: self.text
+			};
+			var curdocs = AutoSave.get('docs');
+			if( curdocs ) {
+				console.log(curdocs);
+			} else {
+				var docs = [doc];
+				AutoSave.set('docs', docs);
+			}
 		};
 
 	    self.init();

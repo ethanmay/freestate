@@ -4,10 +4,13 @@
 			Logged in as {{ user.name }}<br><a ng-click="login.logout()"><i class="fa fa-sign-out"></i> Log out</a>
 		</div>
 		<div class="grid-content text-center">
-			<h2><i class="fa fa-plus-square"></i></h2>
+			<h2><i class="fa fa-file-text"></i></h2>
 			<h4>Start Writing</h4>
 			<p>Get those juices flowing!</p>
-			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>
+			<ul class="button-group expand">
+				<li><a class="button expand text-center" ng-click="closeModal()"><i class="fa fa-plus-square"></i> New Document</a></li>
+				<li><a class="button expand text-center" ng-click="login.step = 'saved'"><i class="fa fa-folder-open"></i> Saved Documents</a></li>
+			</ul>
 			<hr>
 			<h2><i class="fa fa-cogs"></i></h2>
 			<h4>Connect Accounts</h4>
@@ -32,9 +35,25 @@
 			</ul>
 		</div>
 	</div>
+	<div class="grid-block" ng-show="login.step === 'saved'" ng-if="user._id">
+		<div class="grid-content text-center">
+			<h1><i class="fa fa-folder-open"></i></h1>
+			<h3>Saved Documents</h3>
+			<p>View and edit the documents you've saved.</p>
+			<hr>
+			<section class="block-list text-left no-margin">
+				<header>Your Documents:</header>
+				<ul>
+					<li ng-if="!login.docs.length"><a ng-disabled="true">Oops! You haven't created any documents yet.</a></li>
+					<li ng-repeat="doc in login.docs"><a ui-sref="doc({ docid: doc._id })">{{ doc.title }}</a></li>
+				</ul>
+			</section>
+			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>
+		</div>
+	</div>
 	<div class="grid-block" ng-show="login.step === 1" ng-if="!user._id">
 		<div class="grid-content text-center">
-			<h1><i class="fa fa-plus-square"></i></h1>
+			<h1><i class="fa fa-file-text"></i></h1>
 			<h3>Start Writing</h3>
 			<p>Get those juices flowing!</p>
 			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>

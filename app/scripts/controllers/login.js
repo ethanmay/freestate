@@ -8,8 +8,13 @@
  * Controller of the freestateApp
  */
 angular.module('freestateApp')
-  .controller('LoginCtrl', [ '$rootScope', '$scope', 'AuthService', function( $rootScope, $scope, AuthService ){
+  .controller('LoginCtrl', [ '$rootScope', '$scope', 'AuthService', 'AutoSave', function( $rootScope, $scope, AuthService, AutoSave ){
 	var self = this;
+
+	self.init = function() {
+		self.docs = AutoSave.get('docs');
+		console.log(self.docs);
+	};
 
 	self.login = function() {
 		AuthService.login( self.data ).then( function( user ) {
@@ -60,4 +65,6 @@ angular.module('freestateApp')
         	$rootScope.user = { _id: false, name: false, local: { email: false } };
 		});
 	};
+
+	self.init();
 }]);

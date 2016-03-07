@@ -22,6 +22,10 @@ angular.module('freestateApp')
         self.limit = {};
     };
 
+    self.clearInput = function( e ) {
+        angular.element( e.target ).val( '' );
+    };
+
     self.validifyTime = function() {
     	var lim = self.timeLimit;
     	

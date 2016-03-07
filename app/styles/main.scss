@@ -22,6 +22,10 @@
   font-weight: bold;
 }
 
+.no-margin {
+  margin: 0 !important;
+}
+
 // Color Palette
 $white: #FFFFFF;
 $light-purple: #DCDBED;
@@ -120,7 +124,6 @@ body {
   );
 
   .page-container {
-    position: relative;
     padding: 30px 20px;
     background: $white;
 
