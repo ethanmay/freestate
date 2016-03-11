@@ -45,7 +45,7 @@
 				<header>Your Documents:</header>
 				<ul>
 					<li ng-if="!login.docs.length"><a ng-disabled="true">Oops! You haven't created any documents yet.</a></li>
-					<li ng-repeat="doc in login.docs"><a ui-sref="doc({ docid: doc._id })">{{ doc.title }}</a></li>
+					<li ng-repeat="doc in login.docs" ng-click="login.editDocument( doc._id )"><a ui-sref="doc({ docid: doc._id })">{{ doc.title }}<i class="icon-edit fa fa-pencil"></i></a></li>
 				</ul>
 			</section>
 			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>
