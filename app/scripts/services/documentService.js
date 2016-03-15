@@ -33,13 +33,12 @@ angular.module('freestateApp')
 									var newDoc = new Document();
 									angular.copy( localDoc, newDoc );
 									newDoc.$save({ userId: $rootScope.user._id });
+								} else {
+									// Remove local doc....
 								}
 							});
 						});
-						AutoSave.set('docs', []);
 					}
-				} else {
-					console.log( 'No server documents retreived.' );
 				}
 			});
 		}
