@@ -16,11 +16,15 @@ angular.module('freestateApp')
   	'$scope',
   	'$analytics',
   	'AutoSave',
-  	'FoundationApi',
-  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics, AutoSave, FoundationApi ){
+  	'AuthService',
+  	'$rootScope',
+  	'DocumentService',
+  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics, AutoSave, AuthService, $rootScope, DocumentService ){
 	    var self = this;
 
 	    self.init = function() {
+	    	self.checkAuthorization();
+
 		    self.limit = false;
 		    self.showToolbar = false;
 	    	self.enableWriting = false;
@@ -39,6 +43,24 @@ angular.module('freestateApp')
 			    angular.element('.page-container').css( 'min-height', total );
 			    angular.element('.page-container [text-angular] .ta-scroll-window > .ta-bind').css( 'min-height', total - 73 ); // subtract padding of container
 		    }, 250);
+	    };
+
+	    self.checkAuthorization = function() {
+			AuthService.check().then( function( user ) {
+				if( user ) {
+					if( !user.local && !user.facebook.token && !user.twitter.token && !user.google.token ) {
+						console.log('Logging user out.');
+			        	AuthService.logout().then( function() {
+				        	$rootScope.user = { _id: false, name: false, local: { email: false } };
+						});
+					} else {
+						AuthService.set( user );
+						DocumentService.syncAll();
+					}
+				} else {
+					$rootScope.user = { _id: false, name: false, local: { email: false } };
+				}
+			});
 	    };
 
 	    self.startCreateProcess = function() {
@@ -279,9 +301,7 @@ angular.module('freestateApp')
 
 		self.autoSave = function() {
 			var d = new Date();
-			var id = FoundationApi.generateUuid().replace('zf-uuid-', '');
 			var doc = {
-				_id: id,
 				created: d,
 				title: 'Autosave on ' + d.toDateString() + ' ' + d.toLocaleTimeString(),
 				content: self.text

@@ -1,6 +1,8 @@
 module.exports = function(app, passport, cors) {
 
     var corsOptions = { origin: 'http://localhost:9000' };
+    var Document    = require('./models/document');
+    var User        = require('./models/user');
 
 // normal routes ===============================================================
 
@@ -184,6 +186,75 @@ module.exports = function(app, passport, cors) {
         });
     });
 
+    // =============================================================================
+    // DOCUMENT ROUTES =============================================================
+    // =============================================================================
+    app.options('/user/doc', cors(corsOptions));
+    app.route('/user/:userId/doc')
+        .all( cors(corsOptions), isLoggedIn )
+        .get( function(req, res) {
+            Document.find({ user: req.params.userId }, function( err, docs ) {
+                if( err )
+                    res.status(500).send();
+
+                if( docs )
+                    res.send( docs );
+
+                else
+                    res.send('No documents found.');
+            });
+        })
+        .post( function( req, res ) {
+            if( !req.params.userId ) {
+                res.status(401).send();
+            }
+
+            var newDoc = new Document();
+            newDoc.user = req.params.userId;
+            newDoc.created = req.body.created;
+            newDoc.title = req.body.title;
+            newDoc.content = req.body.content;
+            newDoc.save( function() {
+                User.findById( req.params.userId, function( err, user ) {
+                    if( err ) {
+                        res.status(500).send();
+                    } else if( !user ) {
+                        res.status(401).send();
+                    } else {
+                        user.documents.push( newDoc._id );
+                        user.save( function() {
+                            res.status(200).send();
+                        });
+                    }
+                });
+            });
+        });
+
+    app.route('/user/:userId/doc/:docId')
+        .all( cors(corsOptions), isLoggedIn )
+        .get( function(req, res) {
+            if( req.params.docId ) {
+                Document.findById( req.params.docId , function(err, doc) {
+                    if( err )
+                        res.status(500).send();
+
+                    if( doc ) 
+                        res.send({ doc: doc });
+
+                    else 
+                        res.status(500).send();
+                });
+            }
+        })
+        .post( function(req, res) {
+            
+        })
+        .put( function(req, res) {
+            
+        })
+        .delete( function(req, res) {
+            
+        });
 
 };
 
@@ -193,7 +264,7 @@ function isLoggedIn(req, res, next) {
         return next();
     }
 
-    res.send( false );
+    res.status(401).send( 'User authentication failed.' );
 }
 
 /*

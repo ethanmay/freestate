@@ -44,8 +44,29 @@ angular
 				requireBase: false
 			});
 		}])
-		.run( [ 'ModalFactory', 'AuthService', '$rootScope', '$timeout', function( ModalFactory, AuthService, $rootScope, $timeout ){
+		.run( [
+			'ModalFactory',
+			'AuthService',
+			'$rootScope',
+			'$timeout',
+			'GlobalConfig',
+			'$window',
+			function( ModalFactory, AuthService, $rootScope, $timeout, GlobalConfig, $window ){
+
+			// Set Env Variables
+			switch( $window.location.href ) {
+				case 'http://localhost:9000/#/':
+					$rootScope.serverRoute = GlobalConfig.LocalDevApi;
+					break;
+				default:
+					console.log('unrecognized server', $window.location.href);
+					break;
+			}
+
+			// Attach FastClick
 			FastClick.attach( document.body );
+
+			// Check Mobile Devices
 			if( window.mobilecheck() ) {
 				var modal = new ModalFactory({
 					// Add CSS classes to the modal
@@ -70,19 +91,7 @@ angular
 				modal.activate();
 			}
 
-        	$rootScope.user = { _id: false, name: false, local: { email: false } };
-			AuthService.check().then( function( user ) {
-				if( user ) {
-					if( !user.local && !user.facebook.token && !user.twitter.token && !user.google.token ) {
-						console.log('Logging user out.');
-			        	AuthService.logout().then( function() {
-				        	$rootScope.user = { _id: false, name: false, local: { email: false } };
-						});
-					} else {
-						AuthService.set( user );
-					}
-				} else {
-					$rootScope.user = { _id: false, name: false, local: { email: false } };
-				}
-			});
+			// Initialize Empty User
+	    	$rootScope.user = { _id: false, name: false, local: { email: false } };
+	    	$rootScope.docs = [];
 		}]);

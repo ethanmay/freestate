@@ -12,7 +12,7 @@ angular.module('freestateApp')
 
     function checkAuth() {
       var d = $q.defer();
-      $http.get( 'http://127.0.0.1:8080/auth/check', { withCredentials: true } )
+      $http.get( $rootScope.serverRoute + 'auth/check', { withCredentials: true } )
         .success( function( response ){
           d.resolve( response );
         })
@@ -24,7 +24,7 @@ angular.module('freestateApp')
 
     function login( data ) {
       var d = $q.defer();
-      $http.post( 'http://127.0.0.1:8080/login', data, { withCredentials: true } )
+      $http.post( $rootScope.serverRoute + 'login', data, { withCredentials: true } )
         .success( function( response ){
           d.resolve( response );
         })
@@ -37,9 +37,9 @@ angular.module('freestateApp')
     function signUp( data ) {
       var url = '';
       if( !$rootScope.user._id ) {
-        url = 'http://127.0.0.1:8080/signup';
+        url = $rootScope.serverRoute + 'signup';
       } else {
-        url = 'http://127.0.0.1:8080/connect/local';
+        url = $rootScope.serverRoute + 'connect/local';
       }
       var d = $q.defer();
       $http.post( url, data, { withCredentials: true } )
@@ -55,9 +55,9 @@ angular.module('freestateApp')
   	function socialLogin( network ){
       var url = '';
       if( !$rootScope.user._id ) {
-        url = 'http://127.0.0.1:8080/auth/' + network;
+        url = $rootScope.serverRoute + 'auth/' + network;
       } else {
-        url = 'http://127.0.0.1:8080/connect/' + network;
+        url = $rootScope.serverRoute + 'connect/' + network;
       }
 	    $window.open( url, 'login' );
 
@@ -111,7 +111,7 @@ angular.module('freestateApp')
 
     function unlinkAccount( network ) {
       var d = $q.defer();
-      $http.get( 'http://127.0.0.1:8080/unlink/' + network, { withCredentials: true } )
+      $http.get( $rootScope.serverRoute + 'unlink/' + network, { withCredentials: true } )
         .success( function( response ){
           d.resolve( response );
         })
@@ -123,7 +123,7 @@ angular.module('freestateApp')
 
     function logOut() {
       var d = $q.defer();
-      $http.delete( 'http://127.0.0.1:8080/logout', { withCredentials: true } )
+      $http.delete( $rootScope.serverRoute + 'logout', { withCredentials: true } )
         .success( function( response ){
           d.resolve( response );
         })

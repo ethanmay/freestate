@@ -12,12 +12,14 @@ var cors 	 = require('cors');
 var morgan       = require('morgan');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-var mongoStore = require('connect-mongo')(session);
+var mongoStore   = require('connect-mongo')(session);
+var autoIncrement = require('mongoose-auto-increment');
 
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
+var con = mongoose.connect(configDB.url); // connect to our database
+autoIncrement.initialize(con);
 
 require('./config/passport')(passport); // pass passport for configuration
 

@@ -8,6 +8,6 @@
  * Factory in the freestateApp
  */
 angular.module('freestateApp')
-  .factory('User', [ '$resource', function ( $resource ) {
-    return $resource('/user/:userId', {userId:'@id'});
-  }]);
+	.constant('GlobalConfig', {
+		'LocalDevApi': 'http://127.0.0.1:8080/'
+	});

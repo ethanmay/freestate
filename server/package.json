@@ -17,5 +17,8 @@
     "passport-google-oauth": "latest",
     "passport-local": "latest",
     "passport-twitter": "latest"
+  },
+  "devDependencies": {
+    "mongoose-auto-increment": "^5.0.1"
   }
 }
