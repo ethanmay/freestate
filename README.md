@@ -8,7 +8,7 @@ Set a writing goal for yourself, then set an expiration timer. If you stop writi
 
 #### About
 
-I made this because I saw an app at the top of Product Hunt today called [FlowState](https://www.producthunt.com/tech/flowstate-2). I loved the idea of it, but considered $15 pretty expensive for something I knew I could build in less than 24 hours.
+I made this because I saw an app at the top of Product Hunt today called [FlowState](https://www.producthunt.com/tech/flowstate-2). I loved the idea of it, so I challenged myself to build something similar in less than 24 hours.
 
 ----
 
