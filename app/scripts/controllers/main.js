@@ -267,7 +267,7 @@ angular.module('freestateApp')
 	    	var modal = new ModalFactory({
 				// Add CSS classes to the modal
 				// Can be a single string or an array of classes
-				class: 'tiny dialog',
+				class: 'small dialog',
 				// Set if the modal has a background overlay
 				overlay: true,
 				// Set if the modal can be closed by clicking on the overlay
@@ -281,7 +281,15 @@ angular.module('freestateApp')
 						$timeout(function() {
 							modal.destroy();
 						}, 1000);
-					}
+					},
+					setInitialDocumentTitle: function( title ) {
+						var docs = AutoSave.get('docs');
+				    	if( angular.isObject( docs ) ) {
+							docs[0].title = title;
+							DocumentService.save( docs[0] );
+							AutoSave.remove('docs');
+						}
+					},
 				}
 			});
 			modal.activate();

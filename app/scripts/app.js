@@ -53,6 +53,7 @@ angular
 			'$window',
 			function( ModalFactory, AuthService, $rootScope, $timeout, GlobalConfig, $window ){
 
+			$rootScope.serverRoute = GlobalConfig.LocalDevApi;
 			// Set Env Variables
 			switch( $window.location.href ) {
 				case 'http://localhost:9000/#/':

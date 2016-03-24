@@ -1,13 +1,15 @@
 <div class="grid-block">
 	<div class="grid-content text-center">
 		<h1><i class="fa fa-check-circle-o"></i></h1>
-		<h3>You did it! Name your baby:</h3>
-		<form ng-submit="setDocumentTitle()">
+		<h3>Looking good! Name your baby.</h3>
+		<p>Switching to edit mode so you can continue working.</p>
+		<form ng-submit="setInitialDocumentTitle( contentScope.docTitle ); closeModal()">
 			<label>Title:
-				<input type="text" ng-model="?" placeholder="Doc title here">
+				<input ng-model="contentScope.docTitle" type="text" placeholder="My Wonderful New Document">
+				{{ ::scope }}
 			</label>
+			<input class="button expand" value="Set Title & Edit" type="submit" />
 		</form>
-		<p>Switching to edit mode so you can edit and format your work.</p>
 	</div>
 </div>
 

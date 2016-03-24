@@ -9,6 +9,19 @@
  */
 angular.module('freestateApp')
 	.factory('DocumentService', [ '$rootScope', 'AuthService', 'Document', 'AutoSave', function( $rootScope, AuthService, Document, AutoSave ) {
+
+		function saveDocument( doc ) {
+
+			if( !$rootScope.user._id ) {
+				console.log( 'User not set. Can\'t perform sync.' );
+				return false;
+			}
+
+			console.log('documentService saving document');
+			var newDoc = new Document();
+			angular.copy( doc, newDoc );
+			newDoc.$save({ userId: $rootScope.user._id });
+		}
 		
 		function syncAllDocuments() {
 
@@ -33,8 +46,6 @@ angular.module('freestateApp')
 									var newDoc = new Document();
 									angular.copy( localDoc, newDoc );
 									newDoc.$save({ userId: $rootScope.user._id });
-								} else {
-									// Remove local doc....
 								}
 							});
 						});
@@ -44,6 +55,7 @@ angular.module('freestateApp')
 		}
 		
 		var service = {
+			save: saveDocument,
 			syncAll: syncAllDocuments
 		};
 
