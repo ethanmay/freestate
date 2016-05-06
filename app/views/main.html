@@ -1,10 +1,27 @@
-<div class="page-container" stop-event="touchend">
-  <div
-    name="text-editor"
-    text-angular
-    ng-model="main.text"
-    ng-class="main.showToolbar ? 'showToolbar' : ''"
-    ng-change="main.stoppedWriting()"
-    ng-keyup="main.destroyTimers( $event )"></div>
-  <div class="editor-overlay" ng-hide="main.enableWriting"></div>
+<div>
+  <h2 ng-if="main.editMode">{{ docResource.doc.title }}</h2>
+  <div class="page-container" stop-event="touchend">
+    <div
+      ng-if="!main.editMode"
+      name="text-creator"
+      text-angular
+      ng-model="main.text"
+      ng-class="main.showToolbar ? 'showToolbar' : ''"
+      ng-change="main.stoppedWriting()"
+      ng-keyup="main.destroyTimers( $event )"></div>
+    <div
+      ng-if="main.editMode"
+      name="text-editor"
+      text-angular
+      ng-model="main.text"
+      ng-class="main.showToolbar ? 'showToolbar' : ''"></div>
+    <div class="editor-overlay" ng-hide="main.enableWriting">
+    	<h3 class="text-center"><b>Welcome to FreeState</b></h3>
+    	<h5 class="text-center">Improve your writing flow.</h5>
+    	<hr/>
+    	<p>Set a writing goal for yourself, then set an expiration timer. If you stop writing, the expiration timer starts. If you don't start writing again, your work will be erased and you will start over.</p>
+    	<hr>
+    	<p>When you're ready, click the &nbsp;<i ng-click="main.openLoginModal()" class="fa fa-plus-square"></i>&nbsp; button to begin.</p>
+    </div>
+  </div>
 </div>

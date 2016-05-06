@@ -8,9 +8,8 @@
 <body>
 <script type="text/javascript">
     if (window.opener) {
-        var state = '<%= state %>';
         var user = <%- JSON.stringify(user) %>;
-        window.opener.postMessage( { state: state, user: user }, 'http://localhost:9000' );
+        window.opener.postMessage( { user: user }, 'http://localhost:9000' );
     }
     window.close();
 </script>

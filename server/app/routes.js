@@ -213,7 +213,7 @@ module.exports = function(app, passport, cors) {
             newDoc.user = req.params.userId;
             newDoc.created = req.body.created;
             newDoc.title = req.body.title;
-            newDoc.content = req.body.content;
+            newDoc.content = req.body.text;
             newDoc.save( function() {
                 User.findById( req.params.userId, function( err, user ) {
                     if( err ) {

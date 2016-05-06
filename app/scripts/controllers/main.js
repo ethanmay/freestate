@@ -18,8 +18,9 @@ angular.module('freestateApp')
   	'AutoSave',
   	'AuthService',
   	'$rootScope',
+  	'Document',
   	'DocumentService',
-  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics, AutoSave, AuthService, $rootScope, DocumentService ){
+  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics, AutoSave, AuthService, $rootScope, Document, DocumentService ){
 	    var self = this;
 
 	    self.init = function() {
@@ -29,7 +30,7 @@ angular.module('freestateApp')
 		    self.showToolbar = false;
 	    	self.enableWriting = false;
 	    	self.counterStarted = false;
-	    	self.text = '<h3 class="text-center"><b>Welcome to FreeState</b></h3><h5 class="text-center">Improve your writing flow.</h5><hr/><p>Set a writing goal for yourself, then set an expiration timer. If you stop writing, the expiration timer starts. If you don\'t start writing again, your work will be erased and you will start over.</p><hr><p>When you\'re ready, click the &nbsp;<i class="fa fa-plus-square"></i>&nbsp; button to begin.</p>';
+	    	self.text = '';
 			self.timer = 0;
 			self.editMode = false;
 			self.wordCount = 0;
@@ -55,7 +56,7 @@ angular.module('freestateApp')
 						});
 					} else {
 						AuthService.set( user );
-						DocumentService.syncAll();
+						DocumentService.sync();
 					}
 				} else {
 					$rootScope.user = { _id: false, name: false, local: { email: false } };
@@ -63,18 +64,12 @@ angular.module('freestateApp')
 			});
 	    };
 
-	    self.startCreateProcess = function() {
+	    self.openChallengeModal = function() {
 		    var modal = new ModalFactory({
-				// Add CSS classes to the modal
-				// Can be a single string or an array of classes
 				class: 'small dialog',
-				// Set if the modal has a background overlay
 				overlay: true,
-				// Set if the modal can be closed by clicking on the overlay
 				overlayClose: true,
-				// Define a template to use for the modal
 				templateUrl: 'views/modals/timerSet.html',
-				// Allows you to pass in properties to the scope of the modal
 				contentScope: {
 					step: 1,
 					closeModal: function( limit ) {
@@ -94,32 +89,24 @@ angular.module('freestateApp')
 			modal.activate();
 	    };
 
-	    self.initLogin = function() {
+	    self.openLoginModal = function() {
 		    var modal = new ModalFactory({
-				// Add CSS classes to the modal
-				// Can be a single string or an array of classes
 				class: 'small dialog',
-				// Set if the modal has a background overlay
 				overlay: true,
-				// Set if the modal can be closed by clicking on the overlay
 				overlayClose: true,
-				// Define a template to use for the modal
 				templateUrl: 'views/modals/login.html',
-				// Allows you to pass in properties to the scope of the modal
 				contentScope: {
 					step: 1,
-					closeModal: function( user ) {
+					closeModal: function( newDoc ) {
 						modal.deactivate();
 
 						$timeout(function() {
 							modal.destroy();
 						}, 1000);
-
-						if( user ) {
-							console.log('User: ', user);
-						}
 						
-						self.startCreateProcess();
+						if( newDoc ) {
+							self.openChallengeModal();
+						}
 					}
 				}
 			});
@@ -127,16 +114,25 @@ angular.module('freestateApp')
 	    };
 
 	    self.initWritingContainer = function() {
+	    	console.log('init writing container');
 	    	$analytics.eventTrack('Started Writing Session');
 		    angular.element('.page-container').css( 'min-height', angular.element('.page-container').outerHeight() + 8 );
 	    	self.enableWriting = true;
 	    	self.text = 'Click here and start typing to begin...';
-	    	self.editor = textAngularManager.retrieveEditor('text-editor');
+	    	if( !self.editMode ) {
+		    	self.editor = textAngularManager.retrieveEditor('text-creator');
+	    	} else {
+		    	self.editor = textAngularManager.retrieveEditor('text-editor');
+	    	}
 	    	self.timer = self.limit.expiry;
 
 	    	self.editor.scope.displayElements.text.click( function() {
 	    		self.editor.scope.displayElements.text.html('&nbsp;');
-				textAngularManager.refreshEditor('text-editor');
+		    	if( !self.editMode ) {
+					textAngularManager.refreshEditor('text-creator');
+				} else {
+					textAngularManager.refreshEditor('text-editor');
+				}
 	    		if( self.limit.type === 'words' ) {
 		    		self.wordCount = self.limit.value;
 	    		}
@@ -156,12 +152,16 @@ angular.module('freestateApp')
 	    };
 
 	    self.stoppedWriting = function() {
-	    	console.log(self.text);
+	    	console.log('stopped writing');
 	    	if( self.enableWriting === true && !self.editMode && self.text !== '<p> </p>' ) {
     			self.detonate = $timeout( function() {
 					$analytics.eventTrack('TIME UP Cleared Document');
 					self.editor.scope.displayElements.text.html('&nbsp;');
-					textAngularManager.refreshEditor('text-editor');
+			    	if( !self.editMode ) {
+						textAngularManager.refreshEditor('text-creator');
+					} else {
+						textAngularManager.refreshEditor('text-editor');
+					}
     				self.timer = self.limit.expiry;
     				angular.element('[text-angular] .ta-scroll-window > .ta-bind').css('opacity', 1);
 			    	$interval.cancel( self.eraseTimer );
@@ -178,13 +178,13 @@ angular.module('freestateApp')
 	    };
 
 	    self.destroyTimers = function( $event ) {
+	    	console.log('destroy timers');
 	    	var inp = '';
 	    	if( $event ) {
 		    	inp = String.fromCharCode( $event.keyCode );
 		    } else {
-		    	inp = null;
-		    	$event = {};
-		    	$event.keyCode = null;
+		    	console.log('no input event');
+		    	return false;
 		    }
 			if ( /[a-zA-Z0-9-_ ]/.test( inp ) || $event.keyCode === 13 ) {
 				if( self.detonate || self.eraseTimer ) {
@@ -207,6 +207,7 @@ angular.module('freestateApp')
 	    };
 
 	    self.beginWritingByTime = function() {
+	    	console.log('time mode');
 	    	self.hourCounter = '';
 	    	self.minuteCounter = '';
 	    	self.secondCounter = '';
@@ -237,10 +238,11 @@ angular.module('freestateApp')
 	    };
 
 	    self.beginWritingByWordCount = function() {
+	    	console.log('word count mode');
 	    	self.counterStarted = true;
 	    	self.wordCount = self.limit.value;
 
-	    	self.countWatcher = $scope.$watch(function () {
+	    	self.countWatcher = $scope.$watch( function() {
 				return self.editor.scope.wordcount;
 			}, function( count ){
 				if( count ) {
@@ -254,46 +256,47 @@ angular.module('freestateApp')
 			});
 	    };
 
-	    self.done = function() {
-			$analytics.eventTrack('Finished Document', { label: self.text });
-			self.destroyTimers();
+	    self.initEditMode = function() {
+	    	console.log('init edit mode');
+	    	self.enableWriting = true;
+	    	self.destroyTimers();
 	    	self.finished = true;
 		    self.showToolbar = true;
 			self.counterStarted = false;
 			self.editMode = true;
 			self.limit = false;
 			self.wordCount = 0;
+	    };
+
+	    self.done = function() {
+	    	console.log('done!');
+			$analytics.eventTrack('Finished Document', { label: self.text });
 
 	    	var modal = new ModalFactory({
-				// Add CSS classes to the modal
-				// Can be a single string or an array of classes
 				class: 'small dialog',
-				// Set if the modal has a background overlay
 				overlay: true,
-				// Set if the modal can be closed by clicking on the overlay
 				overlayClose: true,
-				// Define a template to use for the modal
 				templateUrl: 'views/modals/finished.html',
-				// Allows you to pass in properties to the scope of the modal
 				contentScope: {
-					closeModal: function() {
+					closeModal: function( title ) {
+						if( title ) {
+							DocumentService.autoSave( title, self.text );
+							var docs = DocumentService.sync();
+							console.log(docs);
+							// var stateParams = {
+							// 	docId: docs[ docs.length - 1 ]
+							// };
+							// $state.go('doc', stateParams);
+						}
+
 						modal.deactivate();
 						$timeout(function() {
 							modal.destroy();
 						}, 1000);
-					},
-					setInitialDocumentTitle: function( title ) {
-						var docs = AutoSave.get('docs');
-				    	if( angular.isObject( docs ) ) {
-							docs[0].title = title;
-							DocumentService.save( docs[0] );
-							AutoSave.remove('docs');
-						}
-					},
+					}
 				}
 			});
 			modal.activate();
-			self.autoSave();
 	    };
 
 	    self.msToTime = function( s ) {
@@ -305,22 +308,6 @@ angular.module('freestateApp')
 			var hrs = (s - min) / 60;
 
 			return { hrs: hrs, min: min, sec: sec };
-		};
-
-		self.autoSave = function() {
-			var d = new Date();
-			var doc = {
-				created: d,
-				title: 'Autosave on ' + d.toDateString() + ' ' + d.toLocaleTimeString(),
-				content: self.text
-			};
-			var curdocs = AutoSave.get('docs');
-			if( curdocs ) {
-				console.log(curdocs);
-			} else {
-				var docs = [doc];
-				AutoSave.set('docs', docs);
-			}
 		};
 
 	    self.init();

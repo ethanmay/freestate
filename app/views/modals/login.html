@@ -8,7 +8,7 @@
 			<h4>Start Writing</h4>
 			<p>Get those juices flowing!</p>
 			<ul class="button-group expand">
-				<li><a class="button expand text-center" ng-click="closeModal()"><i class="fa fa-plus-square"></i> New Document</a></li>
+				<li><a class="button expand text-center" ng-click="closeModal(true);"><i class="fa fa-plus-square"></i> New Document</a></li>
 				<li><a class="button expand text-center" ng-click="login.step = 'saved'"><i class="fa fa-folder-open"></i> Saved Documents</a></li>
 			</ul>
 			<hr>
@@ -44,11 +44,16 @@
 			<section class="block-list text-left no-margin">
 				<header>Your Documents:</header>
 				<ul>
-					<li ng-if="!docs.length"><a ng-disabled="true">Oops! You haven't created any documents yet.</a></li>
-					<li ng-repeat="doc in docs" ng-click="login.editDocument( doc._id )"><a ui-sref="doc({ docid: doc._id })">{{ doc.title }}<i class="icon-edit fa fa-pencil"></i></a></li>
+					<li ng-if="!docs.length">
+						<a ng-disabled="true">Oops! You haven't created any documents yet.</a>
+					</li>
+					<li ng-repeat="doc in docs">
+						<a ui-sref="doc({ docId: doc._id })" ng-click="closeModal(false);">{{ doc.title }}</a>
+						<i class="icon-delete fa fa-trash" ng-click="login.openDeleteModal( doc._id );"></i>
+					</li>
 				</ul>
 			</section>
-			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>
+			<a class="button expand text-center" ng-click="closeModal(true);">Create a Document</a>
 		</div>
 	</div>
 	<div class="grid-block" ng-show="login.step === 1" ng-if="!user._id">
@@ -56,7 +61,7 @@
 			<h1><i class="fa fa-file-text"></i></h1>
 			<h3>Start Writing</h3>
 			<p>Get those juices flowing!</p>
-			<a class="button expand text-center" ng-click="closeModal()">Create a Document</a>
+			<a class="button expand text-center" ng-click="closeModal(true);">Create a Document</a>
 			<hr>
 			<h1><i class="fa fa-sign-in"></i></h1>
 			<h3>Wanna Save?</h3>
@@ -64,7 +69,6 @@
 			<ul class="button-group expand">
 				<li><a class="text-center" ng-click="login.step = 'login'">Log In</a></li>
 				<li><a class="text-center" ng-click="login.step = 'register'">Create Account</a></li>
-				<li><a class="text-center" ng-click="closeModal()">Skip</a></li>
 			</ul>
 		</div>
 	</div>

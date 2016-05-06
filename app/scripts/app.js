@@ -35,8 +35,9 @@ angular
 					templateUrl: 'views/main.html'
 				})
 				.state('doc', {
-					url: '/doc/:docid',
-					templateUrl: 'views/main.html'
+					url: '/doc/:docId',
+					templateUrl: 'views/main.html',
+					controller: 'EditCtrl as edit'
 				});
 
 			$locationProvider.html5Mode({
@@ -53,14 +54,13 @@ angular
 			'$window',
 			function( ModalFactory, AuthService, $rootScope, $timeout, GlobalConfig, $window ){
 
-			$rootScope.serverRoute = GlobalConfig.LocalDevApi;
 			// Set Env Variables
-			switch( $window.location.href ) {
-				case 'http://localhost:9000/#/':
+			switch( $window.location.origin ) {
+				case 'http://localhost:9000':
 					$rootScope.serverRoute = GlobalConfig.LocalDevApi;
 					break;
 				default:
-					console.log('unrecognized server', $window.location.href);
+					console.log('unrecognized server', $window.location.origin);
 					break;
 			}
 
@@ -70,16 +70,10 @@ angular
 			// Check Mobile Devices
 			if( window.mobilecheck() ) {
 				var modal = new ModalFactory({
-					// Add CSS classes to the modal
-					// Can be a single string or an array of classes
 					class: 'tiny dialog',
-					// Set if the modal has a background overlay
 					overlay: true,
-					// Set if the modal can be closed by clicking on the overlay
 					overlayClose: true,
-					// Define a template to use for the modal
 					templateUrl: 'views/modals/homescreen.html',
-					// Allows you to pass in properties to the scope of the modal
 					contentScope: {
 						closeModal: function() {
 							modal.deactivate();

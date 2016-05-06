@@ -1,0 +1,17 @@
+<div class="grid-block">
+	<div class="grid-content text-center">
+		<h1><i class="fa fa-trash"></i></h1>
+		<h3>Delete Document</h3>
+		<p>Are you sure you want to delete this document?</p>
+		<ul class="button-group expand">
+			<li>
+				<a class="text-center" ng-click="closeModal( false )" analytics-on="click" analytics-event="Don't Delete Me Bro">Nope.</a>
+			</li>
+			<li>
+				<a class="text-center" ng-click="closeModal( docId )" analytics-on="click" analytics-event="Delete Document">Yup!</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<a zf-close="" class="close-modal"><i class="fa fa-close"></i></a>
