@@ -244,16 +244,33 @@ module.exports = function(app, passport, cors) {
                     else 
                         res.status(500).send();
                 });
+            } else {
+                res.status(400).send();
             }
         })
-        .post( function(req, res) {
-            
-        })
         .put( function(req, res) {
-            
+            if( req.params.docId ) {
+                Document.findByIdAndUpdate( req.params.docId , function(err, doc) {
+                    if( err )
+                        res.status(500).send();
+                    else 
+                        res.status(200).send({ doc: doc });
+                });
+            } else {
+                res.status(400).send();
+            }
         })
         .delete( function(req, res) {
-            
+            if( req.params.docId ) {
+                Document.findByIdAndRemove( req.params.docId , function(err) {
+                    if( err )
+                        res.status(500).send();
+                    else 
+                        res.status(200).send();
+                });
+            } else {
+                res.status(400).send();
+            }
         });
 
 };

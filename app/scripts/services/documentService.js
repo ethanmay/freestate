@@ -47,7 +47,7 @@ angular.module('freestateApp')
 			
 			var curdocs = AutoSave.get('docs');
 			if( curdocs ) {
-				console.log(curdocs);
+				console.log('docs exist in autosave', curdocs);
 			} else {
 				var docs = [newDoc];
 				AutoSave.set('docs', docs);

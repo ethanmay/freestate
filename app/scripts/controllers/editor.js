@@ -13,8 +13,9 @@ angular.module('freestateApp')
   	'$rootScope',
   	'Document',
   	'$state',
+    'DocumentService',
   	'$stateParams',
-  	function( $scope, $rootScope, Document, $state, $stateParams ){
+  	function( $scope, $rootScope, Document, $state, DocumentService, $stateParams ){
       var self = this;
 
       self.init = function() {
@@ -32,6 +33,11 @@ angular.module('freestateApp')
             $scope.main.initEditMode();
           }
         });
+      };
+
+      self.autoSave = function() {
+        console.log('autosave initiated');
+        // DocumentService.autoSave();
       };
 
       self.init();

@@ -20,7 +20,8 @@ angular.module('freestateApp')
   	'$rootScope',
   	'Document',
   	'DocumentService',
-  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics, AutoSave, AuthService, $rootScope, Document, DocumentService ){
+  	'$state',
+  	function( ModalFactory, $timeout, $interval, textAngularManager, $scope, $analytics, AutoSave, AuthService, $rootScope, Document, DocumentService, $state ){
 	    var self = this;
 
 	    self.init = function() {
@@ -283,10 +284,10 @@ angular.module('freestateApp')
 							DocumentService.autoSave( title, self.text );
 							var docs = DocumentService.sync();
 							console.log(docs);
-							// var stateParams = {
-							// 	docId: docs[ docs.length - 1 ]
-							// };
-							// $state.go('doc', stateParams);
+							var stateParams = {
+								docId: docs[ docs.length - 1 ]
+							};
+							$state.go('doc', stateParams);
 						}
 
 						modal.deactivate();
